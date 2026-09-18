@@ -1,11 +1,12 @@
-import { m, type Variants } from 'framer-motion';
-import { Lock } from 'lucide-react';
-import { useRef } from 'react';
+import { m, useReducedMotion, type Variants } from 'framer-motion';
+import { ArrowRight, Lock } from 'lucide-react';
+import { useRef, type MouseEvent } from 'react';
 import { getTechnology } from '../../data/technologies';
 import { useLanguage } from '../../hooks/useLanguage';
-import { usePointerTilt } from '../../hooks/usePointerTilt';
+import { clearPointerTilt, usePointerTilt } from '../../hooks/usePointerTilt';
 import type { Project } from '../../types';
-import { EASE_OUT } from '../motion/easing';
+import { preloadScreenshot } from '../../utils/screenshots';
+import { EASE_OUT, MEDIA_TRANSITION } from '../motion/easing';
 import { TechIcon } from '../technologies/TechIcon';
 import styles from './ProjectCard.module.css';
 import { ProjectImage } from './ProjectImage';
@@ -20,19 +21,45 @@ const cardVariants: Variants = {
   exit: { opacity: 0, scale: 0.96, transition: { duration: 0.25, ease: EASE_OUT } },
 };
 
-export function ProjectCard({ project }: { project: Project }) {
+interface ProjectCardProps {
+  project: Project;
+  onOpen: (project: Project, trigger: HTMLElement) => void;
+}
+
+export function ProjectCard({ project, onOpen }: ProjectCardProps) {
   const { t, language } = useLanguage();
   const cardRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
   usePointerTilt(cardRef, { maxTilt: 4 });
 
   const titleId = `project-${project.id}-title`;
   const isPrivate = project.links.repository.visibility === 'private';
+  const preload = () => preloadScreenshot(project.screenshot.file);
+
+  const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
+    // Measure the untilted card so the shared transition starts from its resting position.
+    if (cardRef.current) {
+      clearPointerTilt(cardRef.current);
+    }
+    onOpen(project, event.currentTarget);
+  };
 
   return (
     <m.li layout variants={cardVariants} exit="exit" className={styles.item}>
-      <article ref={cardRef} className={styles.card} aria-labelledby={titleId}>
+      <article
+        ref={cardRef}
+        className={styles.card}
+        aria-labelledby={titleId}
+        onPointerEnter={preload}
+        onFocus={preload}
+      >
         <div className={styles.mediaFrame}>
-          <div className={styles.media}>
+          <m.div
+            layoutId={reduceMotion ? undefined : `project-media-${project.id}`}
+            className={styles.media}
+            style={{ borderRadius: 14 }}
+            transition={MEDIA_TRANSITION}
+          >
             <ProjectImage
               file={project.screenshot.file}
               alt={project.screenshot.alt[language]}
@@ -40,7 +67,7 @@ export function ProjectCard({ project }: { project: Project }) {
               className={styles.image}
               style={{ objectPosition: project.screenshot.focus }}
             />
-          </div>
+          </m.div>
           <span className={styles.corners} aria-hidden="true" />
         </div>
 
@@ -74,6 +101,10 @@ export function ProjectCard({ project }: { project: Project }) {
           </ul>
 
           <div className={styles.footer}>
+            <button type="button" className={styles.open} onClick={handleOpen}>
+              {t.projects.viewProject} <span className="sr-only">{project.name}</span>
+              <ArrowRight size={17} aria-hidden="true" />
+            </button>
             <div className={styles.linksSlot}>
               <ProjectLinks project={project} />
             </div>

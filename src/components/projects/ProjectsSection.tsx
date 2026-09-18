@@ -1,8 +1,9 @@
 import { AnimatePresence, m, type Variants } from 'framer-motion';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { PROJECTS } from '../../data/projects';
 import { SECTION_IDS } from '../../data/site';
 import { useLanguage } from '../../hooks/useLanguage';
+import type { Project } from '../../types';
 import {
   filterProjects,
   getAvailableFilters,
@@ -12,6 +13,7 @@ import {
 import { Reveal } from '../ui/Reveal';
 import { SectionHeading } from '../ui/SectionHeading';
 import { ProjectCard } from './ProjectCard';
+import { ProjectDialog } from './ProjectDialog';
 import { ProjectFilters } from './ProjectFilters';
 import styles from './ProjectsSection.module.css';
 
@@ -26,7 +28,16 @@ const gridVariants: Variants = {
 export function ProjectsSection() {
   const { t } = useLanguage();
   const [filter, setFilter] = useState<ProjectFilterId>('all');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
   const visibleProjects = filterProjects(SORTED_PROJECTS, filter);
+  const selectedProject = SORTED_PROJECTS.find((project) => project.id === selectedId);
+
+  const openProject = useCallback((project: Project, trigger: HTMLElement) => {
+    triggerRef.current = trigger;
+    setSelectedId(project.id);
+  }, []);
+  const closeProject = useCallback(() => setSelectedId(null), []);
 
   return (
     <section id={SECTION_IDS.projects} className={styles.section} aria-labelledby="projects-title">
@@ -48,11 +59,22 @@ export function ProjectsSection() {
         >
           <AnimatePresence mode="popLayout">
             {visibleProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} onOpen={openProject} />
             ))}
           </AnimatePresence>
         </m.ul>
       </div>
+
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectDialog
+            key={selectedProject.id}
+            project={selectedProject}
+            onClose={closeProject}
+            returnFocusRef={triggerRef}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

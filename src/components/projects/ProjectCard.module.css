@@ -257,6 +257,47 @@
   border-top: 1px solid rgb(38 50 58 / 0.7);
 }
 
+/* The primary action covers the whole card, so the card itself is the click target. */
+.open {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.open svg {
+  color: var(--color-primary);
+  transition: transform 0.25s var(--ease-out);
+}
+
+.card[data-tilt='active'] .open svg {
+  transform: translateX(3px);
+}
+
+.open:focus-visible {
+  outline: none;
+}
+
+.card:has(.open:focus-visible) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}
+
 .linksSlot {
   container: project-links / inline-size;
   position: relative;

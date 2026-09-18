@@ -24,6 +24,20 @@ export function screenshotUrl(file: string, width: number, format: ImageFormat):
   return `/projects/${file}${suffix}.${format}`;
 }
 
+const preloaded = new Set<string>();
+
+/** Warms the cache with the full-size screenshot used by the detail view. */
+export function preloadScreenshot(file: string): void {
+  const url = screenshotUrl(file, getScreenshotMeta(file).width, 'avif');
+  if (preloaded.has(url)) {
+    return;
+  }
+  preloaded.add(url);
+  const image = new Image();
+  image.decoding = 'async';
+  image.src = url;
+}
+
 export function screenshotSrcSet(file: string, format: ImageFormat): string {
   return getScreenshotMeta(file)
     .widths.map((width) => `${screenshotUrl(file, width, format)} ${width}w`)

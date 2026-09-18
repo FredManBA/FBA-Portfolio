@@ -49,12 +49,20 @@ const es = {
     upcoming: 'Próximamente',
     projectCount: (count: number) => (count === 1 ? '1 proyecto' : `${count} proyectos`),
     technologies: 'Tecnologías',
+    viewProject: 'Ver proyecto',
     demo: 'Demo',
     demoLabel: (name: string) => `Abrir la demo de ${name}`,
     repository: 'GitHub',
     repositoryLabel: (name: string) => `Ver el código de ${name} en GitHub`,
     privateCode: 'Código privado',
     newTab: '(se abre en una pestaña nueva)',
+  },
+  dialog: {
+    close: 'Cerrar',
+    features: 'Características',
+    technologies: 'Tecnologías',
+    viewDemo: 'Ver demo',
+    viewCode: 'Ver código',
   },
 };
 
@@ -108,12 +116,20 @@ const en: Translation = {
     upcoming: 'Coming soon',
     projectCount: (count: number) => (count === 1 ? '1 project' : `${count} projects`),
     technologies: 'Technologies',
+    viewProject: 'View project',
     demo: 'Demo',
     demoLabel: (name: string) => `Open the ${name} demo`,
     repository: 'GitHub',
     repositoryLabel: (name: string) => `View the ${name} code on GitHub`,
     privateCode: 'Private code',
     newTab: '(opens in a new tab)',
+  },
+  dialog: {
+    close: 'Close',
+    features: 'Features',
+    technologies: 'Technologies',
+    viewDemo: 'View demo',
+    viewCode: 'View code',
   },
 };
 
