@@ -28,6 +28,10 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/**/*.test.{ts,tsx}', 'src/test/**'],
+    rules: { 'react-refresh/only-export-components': 'off' },
+  },
+  {
     files: ['**/*.{js,mjs}'],
     extends: [js.configs.recommended],
     languageOptions: { globals: globals.node },

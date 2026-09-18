@@ -32,6 +32,30 @@ const es = {
     primaryAction: 'Ver proyectos',
     secondaryAction: 'Contactar',
   },
+  projects: {
+    title: 'Proyectos',
+    intro: 'Aplicaciones reales, soluciones funcionales.',
+    filterLabel: 'Filtrar proyectos',
+    filters: {
+      all: 'Todos',
+      web: 'Web',
+      games: 'Videojuegos',
+      upcoming: 'Próximamente',
+    },
+    categories: {
+      web: 'Web',
+      games: 'Videojuego',
+    },
+    upcoming: 'Próximamente',
+    projectCount: (count: number) => (count === 1 ? '1 proyecto' : `${count} proyectos`),
+    technologies: 'Tecnologías',
+    demo: 'Demo',
+    demoLabel: (name: string) => `Abrir la demo de ${name}`,
+    repository: 'GitHub',
+    repositoryLabel: (name: string) => `Ver el código de ${name} en GitHub`,
+    privateCode: 'Código privado',
+    newTab: '(se abre en una pestaña nueva)',
+  },
 };
 
 export type Translation = typeof es;
@@ -66,6 +90,30 @@ const en: Translation = {
     intro: 'I build web, software and interactive experiences that turn ideas into real solutions.',
     primaryAction: 'View projects',
     secondaryAction: 'Contact',
+  },
+  projects: {
+    title: 'Projects',
+    intro: 'Real applications, functional solutions.',
+    filterLabel: 'Filter projects',
+    filters: {
+      all: 'All',
+      web: 'Web',
+      games: 'Games',
+      upcoming: 'Coming soon',
+    },
+    categories: {
+      web: 'Web',
+      games: 'Game',
+    },
+    upcoming: 'Coming soon',
+    projectCount: (count: number) => (count === 1 ? '1 project' : `${count} projects`),
+    technologies: 'Technologies',
+    demo: 'Demo',
+    demoLabel: (name: string) => `Open the ${name} demo`,
+    repository: 'GitHub',
+    repositoryLabel: (name: string) => `View the ${name} code on GitHub`,
+    privateCode: 'Private code',
+    newTab: '(opens in a new tab)',
   },
 };
 

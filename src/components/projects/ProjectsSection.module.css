@@ -1,0 +1,52 @@
+.section {
+  position: relative;
+  padding-block: var(--section-space);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px 40px;
+  margin-bottom: 44px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+/* Two per row; a lone last card is centered. */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .grid > li {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .grid > li:nth-child(odd):last-child {
+    grid-column: 2 / span 2;
+  }
+}
+
+/* Three per row; an incomplete last row is centered. */
+@media (min-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .grid > li:nth-child(3n + 1):last-child {
+    grid-column: 3 / span 2;
+  }
+
+  .grid > li:nth-child(3n + 1):nth-last-child(2) {
+    grid-column: 2 / span 2;
+  }
+}

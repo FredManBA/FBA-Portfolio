@@ -1,0 +1,57 @@
+.links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.02);
+  color: var(--color-text-2);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition:
+    color 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out),
+    background-color 0.2s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .link:hover {
+    border-color: rgb(var(--color-primary-rgb) / 0.6);
+    background: rgb(var(--color-primary-rgb) / 0.08);
+    color: var(--color-text);
+  }
+}
+
+/* Visually hidden until the card has room for text labels. */
+.label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@container project-links (min-width: 184px) {
+  .label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  .link {
+    padding: 0 12px 0 10px;
+  }
+}

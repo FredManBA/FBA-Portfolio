@@ -1,0 +1,188 @@
+import type { Project } from '../types';
+
+/**
+ * Portfolio projects. To add one: put its real screenshot in assets/screenshots,
+ * run `npm run images` and append an object here.
+ */
+export const PROJECTS: readonly Project[] = [
+  {
+    id: 'costa-rica-360',
+    name: 'Costa Rica 360',
+    category: 'web',
+    status: 'live',
+    order: 1,
+    tagline: {
+      es: 'Plataforma inmobiliaria interactiva',
+      en: 'Interactive real estate platform',
+    },
+    description: {
+      es: 'Plataforma inmobiliaria para explorar propiedades mediante fotografía, recorridos 360° y ubicación interactiva.',
+      en: 'A real estate platform for exploring properties through photography, 360° tours and interactive locations.',
+    },
+    features: {
+      es: [
+        'Sitio público bilingüe ES/EN',
+        'Catálogo y filtros de propiedades',
+        'Recorridos interactivos 360°',
+        'Mapas y ubicación pública/privada',
+        'Gestión de contenido y multimedia',
+        'Panel administrativo',
+        'Revisiones privadas mediante enlaces temporales',
+        'SEO técnico y metadatos sociales',
+        'Pipeline automatizado de publicación',
+      ],
+      en: [
+        'Bilingual ES/EN public site',
+        'Property catalog and filters',
+        'Interactive 360° tours',
+        'Maps with public/private locations',
+        'Content and media management',
+        'Admin dashboard',
+        'Private reviews through temporary links',
+        'Technical SEO and social metadata',
+        'Automated publishing pipeline',
+      ],
+    },
+    cardTechnologies: ['astro', 'typescript', 'cloudflare', 'mapbox'],
+    technologies: [
+      'astro',
+      'typescript',
+      'cloudflare-workers',
+      'cloudflare-d1',
+      'cloudflare-r2',
+      'drizzle',
+      'mapbox-gl',
+      'photo-sphere-viewer',
+      'zod',
+      'vitest',
+      'github-actions',
+    ],
+    links: {
+      demo: 'https://properties.costarica360.workers.dev/',
+      repository: { visibility: 'public', url: 'https://github.com/FredManBA/Web360' },
+    },
+    screenshot: {
+      file: 'costa-rica-360',
+      alt: {
+        es: 'Página de inicio de Costa Rica 360 con su titular y el botón para ver propiedades.',
+        en: 'Costa Rica 360 home page with its headline and the button to view properties.',
+      },
+    },
+  },
+  {
+    id: 'techbuilder',
+    name: 'TechBuilder',
+    category: 'web',
+    status: 'live',
+    order: 2,
+    tagline: {
+      es: 'Constructor visual de arquitecturas',
+      en: 'Visual architecture builder',
+    },
+    description: {
+      es: 'Workspace visual para explorar tecnologías, comparar alternativas y construir arquitecturas de software.',
+      en: 'A visual workspace for exploring technologies, comparing alternatives and building software architectures.',
+    },
+    features: {
+      es: [
+        'Catálogo de tecnologías',
+        'Constructor visual basado en nodos',
+        'Conexiones entre tecnologías',
+        'Auto-organización',
+        'Comparación de tecnologías',
+        'Guardado local automático',
+        'Varias arquitecturas',
+        'Importación y exportación JSON',
+        'URLs compartibles',
+        'Diseño responsive',
+        'Accesibilidad por teclado',
+        '39 tests aprobados',
+      ],
+      en: [
+        'Technology catalog',
+        'Node-based visual builder',
+        'Connections between technologies',
+        'Auto-layout',
+        'Technology comparison',
+        'Automatic local saving',
+        'Multiple architectures',
+        'JSON import and export',
+        'Shareable URLs',
+        'Responsive design',
+        'Keyboard accessibility',
+        '39 passing tests',
+      ],
+    },
+    cardTechnologies: ['react', 'typescript', 'react-flow', 'zustand'],
+    technologies: [
+      'react',
+      'typescript',
+      'vite',
+      'react-flow',
+      'dagre',
+      'zustand',
+      'vitest',
+      'cloudflare-pages',
+    ],
+    links: {
+      demo: 'https://techbuilder.pages.dev/',
+      repository: { visibility: 'public', url: 'https://github.com/FredManBA/TechBuilder' },
+    },
+    screenshot: {
+      file: 'techbuilder',
+      alt: {
+        es: 'Workspace de TechBuilder con el catálogo de tecnologías, el mapa de arquitectura y el inspector de React.',
+        en: 'TechBuilder workspace with the technology catalog, the architecture map and the React inspector.',
+      },
+    },
+  },
+  {
+    id: 'code-to-go',
+    name: 'Code To-Go',
+    category: 'web',
+    status: 'live',
+    order: 3,
+    tagline: {
+      es: 'Experiencia web para servicios digitales',
+      en: 'Web experience for digital services',
+    },
+    description: {
+      es: 'Sitio web para presentar soluciones digitales mediante una interfaz visual, responsive e interactiva.',
+      en: 'A website for presenting digital solutions through a visual, responsive and interactive interface.',
+    },
+    features: {
+      es: [
+        'Presentación de servicios',
+        'Selector guiado de soluciones',
+        'Catálogo',
+        'Navegación responsive',
+        'Animaciones',
+        'Formulario de contacto',
+        'Metadatos sociales y SEO básico',
+      ],
+      en: [
+        'Services showcase',
+        'Guided solution selector',
+        'Catalog',
+        'Responsive navigation',
+        'Animations',
+        'Contact form',
+        'Social metadata and basic SEO',
+      ],
+    },
+    cardTechnologies: ['react', 'tailwind', 'framer-motion', 'vite'],
+    technologies: ['react', 'tailwind', 'framer-motion', 'vite'],
+    links: {
+      demo: 'https://code-to-go.vercel.app/',
+      repository: { visibility: 'private' },
+    },
+    screenshot: {
+      file: 'code-to-go',
+      focus: 'left center',
+      alt: {
+        es: 'Página de inicio de Code To-Go con el titular «Soluciones digitales rápidas y a medida».',
+        en: 'Code To-Go home page with its headline about fast, tailored digital solutions.',
+      },
+    },
+  },
+];

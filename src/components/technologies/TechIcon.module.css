@@ -1,0 +1,18 @@
+.monogram {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  border: 1px solid currentcolor;
+  border-radius: calc(var(--icon-size) * 0.26);
+  font-family: var(--font-mono);
+  font-size: calc(var(--icon-size) * 0.48);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.monogram[data-length='3'] {
+  font-size: calc(var(--icon-size) * 0.36);
+}
