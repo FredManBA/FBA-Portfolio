@@ -22,6 +22,10 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
     },
+    rules: {
+      // Safari drops list semantics from styled lists unless role="list" is explicit.
+      'jsx-a11y/no-redundant-roles': ['error', { ul: ['list'], ol: ['list'] }],
+    },
   },
   {
     files: ['**/*.{js,mjs}'],
