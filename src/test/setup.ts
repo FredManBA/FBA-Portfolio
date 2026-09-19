@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
 import { MotionGlobalConfig } from 'framer-motion';
-import { afterEach } from 'vitest';
+import { afterEach, beforeEach, vi } from 'vitest';
 
 // Animations resolve instantly so tests assert on final states.
 MotionGlobalConfig.skipAnimations = true;
@@ -37,7 +37,17 @@ window.IntersectionObserver = IntersectionObserverStub as unknown as typeof Inte
 window.scrollTo = () => undefined;
 Element.prototype.scrollIntoView = () => undefined;
 
+// No test may reach the network; tests that submit the form stub fetch explicitly.
+beforeEach(() => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(() => Promise.reject(new Error('Network access is disabled in tests.'))),
+  );
+});
+
 afterEach(() => {
   cleanup();
   window.localStorage.clear();
+  vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
 });

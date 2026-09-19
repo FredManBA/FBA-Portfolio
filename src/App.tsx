@@ -1,4 +1,7 @@
+import { AboutSection } from './components/about/AboutSection';
+import { ContactSection } from './components/contact/ContactSection';
 import { Hero } from './components/hero/Hero';
+import { Footer } from './components/layout/Footer';
 import { Header } from './components/layout/Header';
 import { MAIN_CONTENT_ID, SkipLink } from './components/layout/SkipLink';
 import { MotionProvider } from './components/motion/MotionProvider';
@@ -16,7 +19,10 @@ export function App() {
           <Hero />
           <ProjectsSection />
           <TechnologiesSection />
+          <AboutSection />
+          <ContactSection />
         </main>
+        <Footer />
       </MotionProvider>
     </LanguageProvider>
   );

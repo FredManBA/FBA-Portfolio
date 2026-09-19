@@ -1,0 +1,161 @@
+.form {
+  position: relative;
+  display: grid;
+  gap: 20px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.field {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.label {
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  min-height: 52px;
+  padding: 13px 15px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #0b1115;
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.4;
+  transition:
+    border-color 0.2s var(--ease-out),
+    box-shadow 0.2s var(--ease-out);
+}
+
+.input:hover {
+  border-color: var(--color-border-strong);
+}
+
+.input:focus-visible {
+  border-color: rgb(var(--color-primary-rgb) / 0.85);
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb) / 0.2);
+}
+
+.input[aria-invalid='true'] {
+  border-color: rgb(255 123 114 / 0.75);
+}
+
+.input[aria-invalid='true']:focus-visible {
+  box-shadow: 0 0 0 3px rgb(255 123 114 / 0.2);
+}
+
+.textarea {
+  min-height: 160px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  color: var(--color-danger);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.error svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+/* Honeypot: invisible to people, still in the DOM for bots. */
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.submit {
+  width: 100%;
+  min-height: 54px;
+  font-size: 1rem;
+}
+
+.spinner {
+  animation: spin 0.9s linear infinite;
+}
+
+/* The live region stays in the accessibility tree; it only takes space with content. */
+.statusRegion:not(:empty) {
+  margin-top: 14px;
+}
+
+.status {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.status svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.status[data-tone='success'] {
+  border-color: rgb(62 207 142 / 0.35);
+  background: rgb(62 207 142 / 0.08);
+  color: #c3f2dc;
+}
+
+.status[data-tone='success'] svg {
+  color: var(--color-success);
+}
+
+.status[data-tone='info'] {
+  border-color: rgb(var(--color-primary-rgb) / 0.35);
+  background: rgb(var(--color-primary-rgb) / 0.07);
+  color: var(--color-text);
+}
+
+.status[data-tone='info'] svg {
+  color: var(--color-primary);
+}
+
+.status[data-tone='error'] {
+  border-color: rgb(255 123 114 / 0.35);
+  background: rgb(255 123 114 / 0.08);
+  color: #ffd6d2;
+}
+
+.statusLink {
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 559px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
