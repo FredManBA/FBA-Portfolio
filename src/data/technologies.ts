@@ -72,3 +72,37 @@ export type TechnologyId = keyof typeof TECHNOLOGIES;
 export function getTechnology(id: TechnologyId): TechnologyDefinition {
   return TECHNOLOGIES[id];
 }
+
+/** Technologies section: a first selection, and the rest shown after "View all". */
+export const SHOWCASE_TECHNOLOGIES: {
+  featured: readonly TechnologyId[];
+  more: readonly TechnologyId[];
+} = {
+  featured: [
+    'react',
+    'angular',
+    'astro',
+    'typescript',
+    'javascript',
+    'tailwind',
+    'node',
+    'express',
+    'mongodb',
+    'postgresql',
+    'cloudflare',
+    'git',
+  ],
+  more: [
+    'html',
+    'css',
+    'cloudflare-d1',
+    'cloudflare-r2',
+    'drizzle',
+    'zustand',
+    'react-flow',
+    'mapbox',
+    'framer-motion',
+    'vite',
+    'github-actions',
+  ],
+};

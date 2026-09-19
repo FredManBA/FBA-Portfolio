@@ -64,6 +64,12 @@ const es = {
     viewDemo: 'Ver demo',
     viewCode: 'Ver código',
   },
+  technologies: {
+    title: 'Tecnologías',
+    intro: 'Herramientas y tecnologías con las que desarrollo.',
+    showAll: 'Ver todas',
+    showLess: 'Ver menos',
+  },
 };
 
 export type Translation = typeof es;
@@ -130,6 +136,12 @@ const en: Translation = {
     technologies: 'Technologies',
     viewDemo: 'View demo',
     viewCode: 'View code',
+  },
+  technologies: {
+    title: 'Technologies',
+    intro: 'Tools and technologies I build with.',
+    showAll: 'View all',
+    showLess: 'Show less',
   },
 };
 
