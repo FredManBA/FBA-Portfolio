@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildMailtoUrl, validateContact } from './contact';
+import { validateContact } from './contact';
 
 const valid = {
   name: 'Ana Mora',
@@ -31,20 +31,5 @@ describe('validateContact', () => {
     expect(validateContact({ ...valid, name: 'A' }).name).toBe('nameTooShort');
     expect(validateContact({ ...valid, message: 'Hola' }).message).toBe('messageTooShort');
     expect(validateContact({ ...valid, message: 'x'.repeat(4001) }).message).toBe('messageTooLong');
-  });
-});
-
-describe('buildMailtoUrl', () => {
-  it('addresses the public email with the name, email and message', () => {
-    const url = new URL(
-      buildMailtoUrl(valid, { subject: 'Mensaje de Ana Mora', name: 'Nombre', email: 'Correo' }),
-    );
-
-    expect(url.protocol).toBe('mailto:');
-    expect(url.pathname).toBe('codeservicecontact@gmail.com');
-    expect(url.searchParams.get('subject')).toBe('Mensaje de Ana Mora');
-    expect(url.searchParams.get('body')).toBe(
-      'Quiero cotizar un sitio web.\r\n\r\nNombre: Ana Mora\r\nCorreo: ana@example.com',
-    );
   });
 });

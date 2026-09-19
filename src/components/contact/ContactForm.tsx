@@ -1,13 +1,9 @@
-import { CircleAlert, CircleCheck, LoaderCircle, Mail, Send } from 'lucide-react';
+import { CircleAlert, Info, Send } from 'lucide-react';
 import { useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import { useLanguage } from '../../hooks/useLanguage';
 import {
-  buildMailtoUrl,
   CONTACT_FIELDS,
   CONTACT_LIMITS,
-  getWeb3FormsKey,
-  openMailClient,
-  submitToWeb3Forms,
   validateContact,
   type ContactErrors,
   type ContactField,
@@ -15,8 +11,6 @@ import {
 } from '../../utils/contact';
 import button from '../ui/button.module.css';
 import styles from './ContactForm.module.css';
-
-type Status = 'idle' | 'sending' | 'success' | 'error' | 'mailto';
 
 const EMPTY_VALUES: ContactValues = { name: '', email: '', message: '' };
 
@@ -45,22 +39,15 @@ function Field({ id, label, error, children }: FieldProps) {
 }
 
 export function ContactForm() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const copy = t.contact.form;
   const [values, setValues] = useState<ContactValues>(EMPTY_VALUES);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [attempted, setAttempted] = useState(false);
-  const [status, setStatus] = useState<Status>('idle');
-  const honeypotRef = useRef<HTMLInputElement>(null);
+  const [showDemoNotice, setShowDemoNotice] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
-
-  const mailtoUrl = buildMailtoUrl(values, {
-    subject: copy.mailSubject(values.name.trim()),
-    name: copy.name,
-    email: copy.email,
-  });
 
   const handleChange =
     (field: ContactField) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -70,22 +57,12 @@ export function ContactForm() {
       if (attempted) {
         setErrors(validateContact(next));
       }
-      if (status !== 'sending') {
-        setStatus('idle');
-      }
+      setShowDemoNotice(false);
     };
 
-  const reset = () => {
-    setValues(EMPTY_VALUES);
-    setErrors({});
-    setAttempted(false);
-  };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  // Visual demo only: validates locally and never sends, stores or opens anything.
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (status === 'sending') {
-      return;
-    }
 
     const nextErrors = validateContact(values);
     setAttempted(true);
@@ -95,45 +72,18 @@ export function ContactForm() {
     if (firstInvalid) {
       const refs = { name: nameRef, email: emailRef, message: messageRef };
       refs[firstInvalid].current?.focus();
-      setStatus('idle');
+      setShowDemoNotice(false);
       return;
     }
 
-    // Bots fill the hidden field; pretend success without sending anything.
-    if (honeypotRef.current?.checked) {
-      reset();
-      setStatus('success');
-      return;
-    }
-
-    const accessKey = getWeb3FormsKey();
-    if (!accessKey) {
-      openMailClient(mailtoUrl);
-      setStatus('mailto');
-      return;
-    }
-
-    setStatus('sending');
-    try {
-      await submitToWeb3Forms(values, { accessKey, language });
-      reset();
-      setStatus('success');
-    } catch {
-      setStatus('error');
-    }
+    setShowDemoNotice(true);
   };
 
   const describedBy = (field: ContactField) =>
     errors[field] ? `contact-${field}-error` : undefined;
 
   return (
-    <form
-      className={styles.form}
-      noValidate
-      aria-label={copy.label}
-      aria-busy={status === 'sending'}
-      onSubmit={(event) => void handleSubmit(event)}
-    >
+    <form className={styles.form} noValidate aria-label={copy.label} onSubmit={handleSubmit}>
       <div className={styles.row}>
         <Field id="contact-name" label={copy.name} error={errors.name && copy.errors[errors.name]}>
           <input
@@ -195,57 +145,17 @@ export function ContactForm() {
         />
       </Field>
 
-      <input
-        ref={honeypotRef}
-        type="checkbox"
-        name="botcheck"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden="true"
-        className={styles.honeypot}
-      />
-
       <div>
-        <button
-          type="submit"
-          className={`${button.button} ${button.primary} ${styles.submit}`}
-          disabled={status === 'sending'}
-        >
-          {status === 'sending' ? (
-            <>
-              <LoaderCircle size={18} className={styles.spinner} aria-hidden="true" />
-              {copy.sending}
-            </>
-          ) : (
-            <>
-              {copy.submit}
-              <Send size={17} className={button.arrow} aria-hidden="true" />
-            </>
-          )}
+        <button type="submit" className={`${button.button} ${button.primary} ${styles.submit}`}>
+          {copy.submit}
+          <Send size={17} className={button.arrow} aria-hidden="true" />
         </button>
 
         <div role="status" aria-live="polite" className={styles.statusRegion}>
-          {status === 'success' && (
-            <p className={styles.status} data-tone="success">
-              <CircleCheck size={18} aria-hidden="true" />
-              {copy.success}
-            </p>
-          )}
-          {status === 'mailto' && (
+          {showDemoNotice && (
             <p className={styles.status} data-tone="info">
-              <Mail size={18} aria-hidden="true" />
-              {copy.mailtoOpened}
-            </p>
-          )}
-          {status === 'error' && (
-            <p className={styles.status} data-tone="error">
-              <CircleAlert size={18} aria-hidden="true" />
-              <span>
-                {copy.error}{' '}
-                <a href={mailtoUrl} className={styles.statusLink}>
-                  {copy.emailDirectly}
-                </a>
-              </span>
+              <Info size={18} aria-hidden="true" />
+              {copy.demoNotice}
             </p>
           )}
         </div>

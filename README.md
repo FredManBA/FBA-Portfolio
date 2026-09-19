@@ -22,7 +22,7 @@ npm run dev
 
 ### Formulario de contacto
 
-El formulario envía los mensajes con [Web3Forms](https://web3forms.com). Copia `.env.example` a `.env.local` y escribe la clave en `VITE_WEB3FORMS_ACCESS_KEY`. `.env.local` no se versiona. Sin clave, el formulario abre la aplicación de correo del visitante con el mensaje preparado para `codeservicecontact@gmail.com`.
+La sección de contacto es una demostración visual: el formulario valida los campos, pero no envía ni guarda información.
 
 ## Calidad y pruebas
 
