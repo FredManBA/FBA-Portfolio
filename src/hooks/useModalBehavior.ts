@@ -1,7 +1,7 @@
 import { useEffect, type RefObject } from 'react';
 import { trapFocus } from '../utils/focus';
 
-export const APP_ROOT_ID = 'root';
+const APP_ROOT_ID = 'root';
 
 interface ModalBehaviorOptions {
   /** False while the modal plays its exit animation: the page is released immediately. */
