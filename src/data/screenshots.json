@@ -1,5 +1,12 @@
 {
   "code-to-go": { "width": 1800, "height": 756, "widths": [800, 1800] },
   "costa-rica-360": { "width": 1123, "height": 583, "widths": [800, 1123] },
-  "techbuilder": { "width": 1913, "height": 918, "widths": [800, 1913] }
+  "cut-elite": { "width": 1440, "height": 900, "widths": [800, 1440] },
+  "editor-360": { "width": 1440, "height": 900, "widths": [800, 1440] },
+  "gestion-politica": { "width": 1448, "height": 905, "widths": [800, 1448] },
+  "mis-consentidos": { "width": 1440, "height": 900, "widths": [800, 1440] },
+  "phosphor": { "width": 1520, "height": 860, "widths": [800, 1520] },
+  "retrom": { "width": 1440, "height": 900, "widths": [800, 1440] },
+  "techbuilder": { "width": 1913, "height": 918, "widths": [800, 1913] },
+  "tiny-kingdoms": { "width": 1152, "height": 648, "widths": [800, 1152] }
 }

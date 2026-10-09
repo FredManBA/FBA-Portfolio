@@ -13,7 +13,7 @@ export function ProjectFilters({ filters, active, onChange }: ProjectFiltersProp
   const { t } = useLanguage();
 
   return (
-    <div role="group" aria-label={t.projects.filterLabel} className={styles.filters}>
+    <div role="group" aria-label={t.worlds.filterLabel} className={styles.filters}>
       {filters.map(({ id, count }) => {
         const selected = id === active;
         return (
@@ -31,7 +31,7 @@ export function ProjectFilters({ filters, active, onChange }: ProjectFiltersProp
                 transition={{ type: 'spring', stiffness: 480, damping: 38 }}
               />
             )}
-            <span className={styles.label}>{t.projects.filters[id]}</span>
+            <span className={styles.label}>{t.worlds.filters[id]}</span>
             <span className={styles.count} aria-hidden="true">
               {count}
             </span>

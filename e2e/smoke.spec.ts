@@ -22,13 +22,20 @@ test('loads every section and screenshot without errors or horizontal overflow',
   const problems = collectProblems(page);
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Fredman Bolívar Alfaro');
-  for (const name of ['Proyectos', 'Tecnologías', 'Sobre mí', 'Hablemos']) {
+  await expect(page.getByRole('heading', { level: 1, name: 'Needy Friends' })).toBeVisible();
+  for (const name of [
+    'Tres mundos, un mismo estudio',
+    'Somos tres',
+    '¿Tienes una idea que necesita amigos?',
+  ]) {
     await expect(page.getByRole('heading', { level: 2, name })).toBeAttached();
   }
+  for (const name of ['Videojuegos', 'Webs', 'Herramientas']) {
+    await expect(page.getByRole('heading', { level: 3, name })).toBeAttached();
+  }
 
-  const screenshots = page.locator('#proyectos img');
-  await expect(screenshots).toHaveCount(3);
+  const screenshots = page.locator('#universo img');
+  await expect(screenshots).toHaveCount(10);
   for (const screenshot of await screenshots.all()) {
     await screenshot.scrollIntoViewIfNeeded();
     await expect
@@ -48,22 +55,33 @@ test('switches to English without reloading and remembers the choice', async ({ 
 
   await page.getByRole('button', { name: 'English' }).click();
 
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Software Developer');
-  await expect(page).toHaveTitle('Fredman Bolívar Alfaro | Software Developer');
+  await expect(page.getByText('An indie studio making games, websites and tools.')).toBeVisible();
+  await expect(page).toHaveTitle('Needy Friends | Indie studio for games, websites and tools');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
 
+test('a hero planet leads to its area', async ({ page }) => {
+  // With reduced motion the planets rest in place, which also makes them stable to click.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+
+  await page.locator('#inicio').getByRole('link', { name: 'Herramientas' }).click();
+
+  await expect(page).toHaveURL(/#herramientas$/);
+  await expect(page.getByRole('heading', { level: 3, name: 'Herramientas' })).toBeInViewport();
+});
+
 test('opens a project from the keyboard and restores focus on Escape', async ({ page }) => {
   await page.goto('/');
-  const trigger = page.getByRole('button', { name: 'Ver proyecto TechBuilder' });
+  const trigger = page.getByRole('button', { name: 'Ver detalles TechBuilder' });
 
   await trigger.focus();
   await page.keyboard.press('Enter');
 
   const dialog = page.getByRole('dialog', { name: 'TechBuilder' });
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByRole('link', { name: /Ver demo/ })).toHaveAttribute(
+  await expect(dialog.getByRole('link', { name: /Abrir demo/ })).toHaveAttribute(
     'href',
     'https://techbuilder.pages.dev/',
   );
@@ -74,13 +92,27 @@ test('opens a project from the keyboard and restores focus on Escape', async ({ 
   await expect(trigger).toBeFocused();
 });
 
-test('asks for the missing fields instead of sending an empty message', async ({ page }) => {
+test('filters the page down to one area and back', async ({ page }) => {
+  await page.goto('/#universo');
+  const filters = page.getByRole('group', { name: 'Mostrar áreas' });
+
+  await filters.getByRole('button', { name: /^Webs/ }).click();
+
+  await expect(page.locator('#webs')).toBeVisible();
+  await expect(page.locator('#videojuegos')).toHaveCount(0);
+
+  await filters.getByRole('button', { name: /^Todo/ }).click();
+  await expect(page.locator('#videojuegos')).toBeAttached();
+});
+
+test('asks for the missing fields before preparing the email', async ({ page }) => {
   await page.goto('/#contacto');
 
-  await page.getByRole('button', { name: 'Enviar mensaje' }).click();
+  await page.getByRole('button', { name: 'Abrir en mi correo' }).click();
 
   await expect(page.getByText('Escribe tu nombre.')).toBeVisible();
   await expect(page.getByLabel('Nombre')).toBeFocused();
+  await expect(page.getByRole('link', { name: 'needyfriends.service@gmail.com' })).toBeVisible();
 });
 
 test('tilts project cards under the mouse', async ({ page, isMobile }) => {
@@ -106,5 +138,28 @@ test('navigates with the mobile menu', async ({ page, isMobile }) => {
     .click();
 
   await expect(page).toHaveURL(/#contacto$/);
-  await expect(page.getByRole('heading', { level: 2, name: 'Hablemos' })).toBeInViewport();
+  await expect(
+    page.getByRole('heading', { level: 2, name: '¿Tienes una idea que necesita amigos?' }),
+  ).toBeInViewport();
+});
+
+test('publishes the third-party license notices linked from the footer', async ({
+  page,
+  request,
+}) => {
+  await page.goto('/');
+  const link = page.getByRole('link', { name: 'Licencias de terceros' });
+  await expect(link).toHaveAttribute('href', '/third-party-licenses.txt');
+
+  const response = await request.get('/third-party-licenses.txt');
+  expect(response.ok()).toBe(true);
+  const text = await response.text();
+  for (const name of [
+    'react 19',
+    'framer-motion',
+    'lucide-react',
+    '@fontsource-variable/unbounded',
+  ]) {
+    expect(text).toContain(name);
+  }
 });

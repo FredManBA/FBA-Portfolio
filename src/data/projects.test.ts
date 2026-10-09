@@ -8,9 +8,9 @@ const publicFiles = new Set(
 );
 
 describe('project data', () => {
-  it('uses unique ids and orders', () => {
+  it('uses unique ids, and unique orders inside each area', () => {
     expect(new Set(PROJECTS.map((p) => p.id)).size).toBe(PROJECTS.length);
-    expect(new Set(PROJECTS.map((p) => p.order)).size).toBe(PROJECTS.length);
+    expect(new Set(PROJECTS.map((p) => `${p.category}:${p.order}`)).size).toBe(PROJECTS.length);
   });
 
   describe.each(PROJECTS.map((project) => [project.name, project] as const))('%s', (_, project) => {
@@ -30,11 +30,11 @@ describe('project data', () => {
       expect(project.features.en).toHaveLength(project.features.es.length);
     });
 
-    it('links only to https URLs', () => {
-      const { demo, repository } = project.links;
-      const urls = [demo, repository.visibility === 'public' ? repository.url : undefined];
-      for (const url of urls.filter(Boolean)) {
-        expect(url).toMatch(/^https:\/\//);
+    it('links only to a public https demo, never to source code', () => {
+      expect(Object.keys(project.links).every((key) => key === 'demo')).toBe(true);
+      if (project.links.demo) {
+        expect(project.links.demo).toMatch(/^https:\/\//);
+        expect(project.links.demo).not.toMatch(/github\.com/);
       }
     });
 

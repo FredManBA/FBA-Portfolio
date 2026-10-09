@@ -5,8 +5,10 @@ import { NAV_ITEMS, SECTION_IDS } from '../../data/site';
 import { useActiveSection } from '../../hooks/useActiveSection';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { useHideOnScroll } from '../../hooks/useHideOnScroll';
 import { useScrolled } from '../../hooks/useScrolled';
-import { Wordmark } from '../brand/Wordmark';
+import { Logo } from '../brand/Logo';
+import button from '../ui/button.module.css';
 import styles from './Header.module.css';
 import { LanguageSwitch } from './LanguageSwitch';
 
@@ -16,7 +18,8 @@ const MOBILE_MENU_ID = 'mobile-menu';
 export function Header() {
   const { t } = useLanguage();
   const scrolled = useScrolled(12);
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const tucked = useHideOnScroll();
+  const isDesktop = useMediaQuery('(min-width: 961px)');
   const activeSection = useActiveSection(NAV_SECTION_IDS);
   const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -68,20 +71,31 @@ export function Header() {
     });
 
   return (
-    <header ref={headerRef} className={styles.header} data-elevated={scrolled || menuVisible}>
+    <header
+      ref={headerRef}
+      className={styles.header}
+      data-elevated={scrolled || menuVisible}
+      data-hidden={tucked && !menuVisible}
+    >
       <div className={`container ${styles.inner}`}>
         <a href={`#${SECTION_IDS.home}`} className={styles.brand} aria-label={t.header.homeLabel}>
-          <Wordmark />
+          <Logo className={styles.logo} />
         </a>
 
+        <nav aria-label={t.header.navLabel} className={styles.desktopNav}>
+          <ul role="list" className={styles.navList}>
+            {renderLinks(styles.navLink)}
+          </ul>
+        </nav>
+
         <div className={styles.actions}>
-          <nav aria-label={t.header.navLabel} className={styles.desktopNav}>
-            <ul role="list" className={styles.navList}>
-              {renderLinks(styles.navLink)}
-            </ul>
-          </nav>
-          <span className={styles.divider} aria-hidden="true" />
           <LanguageSwitch />
+          <a
+            href={`#${SECTION_IDS.contact}`}
+            className={`${button.button} ${button.primary} ${button.small} ${styles.cta}`}
+          >
+            {t.header.cta}
+          </a>
           <button
             ref={menuButtonRef}
             type="button"

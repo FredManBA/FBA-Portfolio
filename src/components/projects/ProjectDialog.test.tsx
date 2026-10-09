@@ -2,12 +2,12 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { renderWithProviders } from '../../test/render';
-import { ProjectsSection } from './ProjectsSection';
+import { WorldsSection } from './WorldsSection';
 
 async function openProject(name: string) {
   const user = userEvent.setup();
-  renderWithProviders(<ProjectsSection />);
-  const trigger = screen.getByRole('button', { name: `Ver proyecto ${name}` });
+  renderWithProviders(<WorldsSection />);
+  const trigger = screen.getByRole('button', { name: `Ver detalles ${name}` });
   await user.click(trigger);
   const dialog = await screen.findByRole('dialog', { name });
   return { user, trigger, dialog };
@@ -24,14 +24,11 @@ describe('project detail dialog', () => {
     expect(dialog).toHaveFocus();
     expect(within(dialog).getByText('39 tests aprobados')).toBeInTheDocument();
     expect(within(dialog).getByText('Cloudflare Pages')).toBeInTheDocument();
-    expect(within(dialog).getByRole('link', { name: /Ver demo/ })).toHaveAttribute(
+    expect(within(dialog).getByRole('link', { name: /Abrir demo/ })).toHaveAttribute(
       'href',
       'https://techbuilder.pages.dev/',
     );
-    expect(within(dialog).getByRole('link', { name: /Ver código/ })).toHaveAttribute(
-      'href',
-      'https://github.com/FredManBA/TechBuilder',
-    );
+    expect(within(dialog).getAllByRole('link')).toHaveLength(1);
   });
 
   it('closes with Escape and returns focus to the card', async () => {
@@ -54,27 +51,36 @@ describe('project detail dialog', () => {
   it('keeps keyboard focus inside the dialog', async () => {
     const { user, dialog } = await openProject('Costa Rica 360');
     const close = within(dialog).getByRole('button', { name: 'Cerrar' });
-    const code = within(dialog).getByRole('link', { name: /Ver código/ });
+    const demo = within(dialog).getByRole('link', { name: /Abrir demo/ });
 
     await user.tab();
     expect(close).toHaveFocus();
     await user.tab();
-    await user.tab();
-    expect(code).toHaveFocus();
+    expect(demo).toHaveFocus();
     await user.tab();
     expect(close).toHaveFocus();
     await user.tab({ shift: true });
-    expect(code).toHaveFocus();
+    expect(demo).toHaveFocus();
   });
 
-  it('shows private code without linking to the repository', async () => {
-    const { dialog } = await openProject('Code To-Go');
+  it('offers the demo without any access to the code', async () => {
+    const { dialog } = await openProject('Code To Go');
 
-    expect(within(dialog).getByText('Código privado')).toBeInTheDocument();
-    expect(within(dialog).queryByRole('link', { name: /Ver código/ })).not.toBeInTheDocument();
-    expect(within(dialog).getByRole('link', { name: /Ver demo/ })).toHaveAttribute(
+    expect(within(dialog).getByText('En línea')).toBeInTheDocument();
+    expect(within(dialog).queryByText(/código|GitHub/i)).not.toBeInTheDocument();
+    expect(within(dialog).getByRole('link', { name: /Abrir demo/ })).toHaveAttribute(
       'href',
       'https://code-to-go.vercel.app/',
+    );
+  });
+
+  it('offers to play a released game', async () => {
+    const { dialog } = await openProject('Tiny Kingdoms');
+
+    expect(within(dialog).getByText('Jugable')).toBeInTheDocument();
+    expect(within(dialog).getByRole('link', { name: /Jugar ahora/ })).toHaveAttribute(
+      'href',
+      'https://tiny-kingdoms.pages.dev/',
     );
   });
 });

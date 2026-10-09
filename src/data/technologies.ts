@@ -1,24 +1,18 @@
 import type { IconType } from 'react-icons';
 import {
-  SiAngular,
   SiAstro,
   SiCloudflare,
   SiCloudflarepages,
   SiCloudflareworkers,
-  SiCss,
   SiDrizzle,
-  SiExpress,
   SiFramer,
-  SiGit,
+  SiGodotengine,
   SiGithubactions,
-  SiHtml5,
-  SiJavascript,
   SiMapbox,
-  SiMongodb,
-  SiNodedotjs,
-  SiPostgresql,
+  SiPwa,
   SiReact,
   SiTailwindcss,
+  SiThreedotjs,
   SiTypescript,
   SiVite,
   SiVitest,
@@ -36,17 +30,9 @@ export type TechnologyDefinition =
 
 export const TECHNOLOGIES = {
   react: { name: 'React', icon: SiReact },
-  angular: { name: 'Angular', icon: SiAngular },
   astro: { name: 'Astro', icon: SiAstro },
   typescript: { name: 'TypeScript', icon: SiTypescript },
-  javascript: { name: 'JavaScript', icon: SiJavascript },
-  html: { name: 'HTML5', icon: SiHtml5 },
-  css: { name: 'CSS3', icon: SiCss },
   tailwind: { name: 'Tailwind CSS', icon: SiTailwindcss },
-  node: { name: 'Node.js', icon: SiNodedotjs },
-  express: { name: 'Express', icon: SiExpress },
-  mongodb: { name: 'MongoDB', icon: SiMongodb },
-  postgresql: { name: 'PostgreSQL', icon: SiPostgresql },
   cloudflare: { name: 'Cloudflare', icon: SiCloudflare },
   'cloudflare-workers': { name: 'Cloudflare Workers', icon: SiCloudflareworkers },
   'cloudflare-pages': { name: 'Cloudflare Pages', icon: SiCloudflarepages },
@@ -63,8 +49,18 @@ export const TECHNOLOGIES = {
   vite: { name: 'Vite', icon: SiVite },
   vitest: { name: 'Vitest', icon: SiVitest },
   zod: { name: 'Zod', icon: SiZod },
-  git: { name: 'Git', icon: SiGit },
+  godot: { name: 'Godot', icon: SiGodotengine },
+  gdscript: { name: 'GDScript', monogram: 'GD' },
+  shaders: { name: 'Shaders', monogram: 'Sh' },
+  threejs: { name: 'Three.js', icon: SiThreedotjs },
+  canvas: { name: 'Canvas 2D', monogram: 'C2' },
+  'web-audio': { name: 'Web Audio', monogram: 'WA' },
+  pwa: { name: 'PWA', icon: SiPwa },
+  'web-workers': { name: 'Web Workers', monogram: 'WW' },
+  indexeddb: { name: 'IndexedDB', monogram: 'IDB' },
+  excel: { name: 'Microsoft Excel', monogram: 'XL' },
   'github-actions': { name: 'GitHub Actions', icon: SiGithubactions },
+  'durable-objects': { name: 'Durable Objects', monogram: 'DO' },
 } satisfies Record<string, TechnologyDefinition>;
 
 export type TechnologyId = keyof typeof TECHNOLOGIES;
@@ -72,37 +68,3 @@ export type TechnologyId = keyof typeof TECHNOLOGIES;
 export function getTechnology(id: TechnologyId): TechnologyDefinition {
   return TECHNOLOGIES[id];
 }
-
-/** Technologies section: a first selection, and the rest shown after "View all". */
-export const SHOWCASE_TECHNOLOGIES: {
-  featured: readonly TechnologyId[];
-  more: readonly TechnologyId[];
-} = {
-  featured: [
-    'react',
-    'angular',
-    'astro',
-    'typescript',
-    'javascript',
-    'tailwind',
-    'node',
-    'express',
-    'mongodb',
-    'postgresql',
-    'cloudflare',
-    'git',
-  ],
-  more: [
-    'html',
-    'css',
-    'cloudflare-d1',
-    'cloudflare-r2',
-    'drizzle',
-    'zustand',
-    'react-flow',
-    'mapbox',
-    'framer-motion',
-    'vite',
-    'github-actions',
-  ],
-};

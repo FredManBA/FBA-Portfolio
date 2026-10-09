@@ -1,0 +1,164 @@
+.stage {
+  position: relative;
+  width: min(1040px, 100%);
+  aspect-ratio: 2.2 / 1;
+  margin-inline: auto;
+  margin-bottom: clamp(48px, 7vw, 64px);
+  transform: translate3d(calc(var(--px, 0) * -6px), calc(var(--py, 0) * -5px), 0);
+}
+
+.orbits {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.orbits :global(path) {
+  fill: none;
+  stroke-width: 1.2;
+  stroke-dasharray: var(--length, 4000);
+  stroke-dashoffset: var(--length, 4000);
+  animation: draw 1.6s var(--ease-out) 0.35s forwards;
+}
+
+.back {
+  z-index: 1;
+}
+
+.back :global(path) {
+  stroke: rgb(183 121 228 / 0.3);
+}
+
+.front {
+  z-index: 3;
+}
+
+.front :global(path) {
+  stroke: rgb(255 188 112 / 0.55);
+}
+
+.title {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.logo {
+  width: 44%;
+  height: auto;
+  filter: drop-shadow(0 30px 60px rgb(23 4 32 / 0.9)) drop-shadow(0 0 70px rgb(242 140 82 / 0.22));
+  animation: logo-in 1.1s var(--ease-out) both;
+}
+
+.orbiter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  width: max-content;
+  translate: -50% calc(var(--orbiter-size) / -2);
+  opacity: 0;
+  animation: fade 0.9s var(--ease-out) 1.1s forwards;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.planet {
+  display: block;
+  transition: transform 0.26s var(--ease-out);
+}
+
+.orbiter:focus-visible {
+  outline: none;
+}
+
+.orbiter:focus-visible .planet {
+  border-radius: 50%;
+  outline: 2px solid var(--gold);
+  outline-offset: 5px;
+}
+
+.tag {
+  padding: 5px 11px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: rgb(23 4 32 / 0.72);
+  color: var(--color-text-2);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition:
+    opacity 0.5s var(--ease-out),
+    color 0.2s var(--ease-out),
+    background-color 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out);
+}
+
+.orbiter[data-hidden] .tag {
+  opacity: 0;
+}
+
+.orbiter:focus-visible .tag {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--space);
+}
+
+@media (hover: hover) {
+  .orbiter:hover .planet {
+    transform: scale(1.12);
+  }
+
+  .orbiter:hover .tag {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: var(--space);
+  }
+}
+
+.orbiter:focus-visible .planet {
+  transform: scale(1.12);
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes logo-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.92) translateY(10px);
+  }
+}
+
+@media (max-width: 640px) {
+  .stage {
+    aspect-ratio: 1 / 0.92;
+  }
+
+  .logo {
+    width: 72%;
+  }
+
+  .tag {
+    padding: 4px 9px;
+    font-size: 0.72rem;
+  }
+}

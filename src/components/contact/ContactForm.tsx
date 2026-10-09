@@ -1,9 +1,12 @@
-import { CircleAlert, Info, Send } from 'lucide-react';
+import { CircleAlert, CircleCheck, Copy, Mail } from 'lucide-react';
 import { useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
+import { STUDIO_EMAIL } from '../../data/site';
 import { useLanguage } from '../../hooks/useLanguage';
 import {
   CONTACT_FIELDS,
   CONTACT_LIMITS,
+  buildMailto,
+  openMailApp,
   validateContact,
   type ContactErrors,
   type ContactField,
@@ -12,7 +15,9 @@ import {
 import button from '../ui/button.module.css';
 import styles from './ContactForm.module.css';
 
-const EMPTY_VALUES: ContactValues = { name: '', email: '', message: '' };
+type Status = 'idle' | 'opened' | 'copied' | 'copyFailed';
+
+const EMPTY_VALUES: ContactValues = { name: '', message: '' };
 
 interface FieldProps {
   id: string;
@@ -38,15 +43,18 @@ function Field({ id, label, error, children }: FieldProps) {
   );
 }
 
+/**
+ * Prepares the email in the visitor's own mail app (name, subject and message filled in). The
+ * site sends and stores nothing; the studio address stays visible as a fallback.
+ */
 export function ContactForm() {
   const { t } = useLanguage();
   const copy = t.contact.form;
   const [values, setValues] = useState<ContactValues>(EMPTY_VALUES);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [attempted, setAttempted] = useState(false);
-  const [showDemoNotice, setShowDemoNotice] = useState(false);
+  const [status, setStatus] = useState<Status>('idle');
   const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange =
@@ -57,10 +65,9 @@ export function ContactForm() {
       if (attempted) {
         setErrors(validateContact(next));
       }
-      setShowDemoNotice(false);
+      setStatus('idle');
     };
 
-  // Visual demo only: validates locally and never sends, stores or opens anything.
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -70,13 +77,24 @@ export function ContactForm() {
 
     const firstInvalid = CONTACT_FIELDS.find((field) => nextErrors[field]);
     if (firstInvalid) {
-      const refs = { name: nameRef, email: emailRef, message: messageRef };
+      const refs = { name: nameRef, message: messageRef };
       refs[firstInvalid].current?.focus();
-      setShowDemoNotice(false);
+      setStatus('idle');
       return;
     }
 
-    setShowDemoNotice(true);
+    openMailApp(
+      buildMailto(values, { to: STUDIO_EMAIL, subject: copy.subject(values.name.trim()) }),
+    );
+    setStatus('opened');
+  };
+
+  const handleCopy = () => {
+    // Clipboard access can be refused; the address stays visible to select by hand.
+    navigator.clipboard
+      .writeText(STUDIO_EMAIL)
+      .then(() => setStatus('copied'))
+      .catch(() => setStatus('copyFailed'));
   };
 
   const describedBy = (field: ContactField) =>
@@ -84,46 +102,22 @@ export function ContactForm() {
 
   return (
     <form className={styles.form} noValidate aria-label={copy.label} onSubmit={handleSubmit}>
-      <div className={styles.row}>
-        <Field id="contact-name" label={copy.name} error={errors.name && copy.errors[errors.name]}>
-          <input
-            ref={nameRef}
-            id="contact-name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            required
-            maxLength={CONTACT_LIMITS.nameMax}
-            value={values.name}
-            onChange={handleChange('name')}
-            aria-invalid={Boolean(errors.name)}
-            aria-describedby={describedBy('name')}
-            className={styles.input}
-          />
-        </Field>
-        <Field
-          id="contact-email"
-          label={copy.email}
-          error={errors.email && copy.errors[errors.email]}
-        >
-          <input
-            ref={emailRef}
-            id="contact-email"
-            name="email"
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            spellCheck={false}
-            required
-            maxLength={CONTACT_LIMITS.emailMax}
-            value={values.email}
-            onChange={handleChange('email')}
-            aria-invalid={Boolean(errors.email)}
-            aria-describedby={describedBy('email')}
-            className={styles.input}
-          />
-        </Field>
-      </div>
+      <Field id="contact-name" label={copy.name} error={errors.name && copy.errors[errors.name]}>
+        <input
+          ref={nameRef}
+          id="contact-name"
+          name="name"
+          type="text"
+          autoComplete="name"
+          required
+          maxLength={CONTACT_LIMITS.nameMax}
+          value={values.name}
+          onChange={handleChange('name')}
+          aria-invalid={Boolean(errors.name)}
+          aria-describedby={describedBy('name')}
+          className={styles.input}
+        />
+      </Field>
 
       <Field
         id="contact-message"
@@ -134,7 +128,7 @@ export function ContactForm() {
           ref={messageRef}
           id="contact-message"
           name="message"
-          rows={6}
+          rows={5}
           required
           maxLength={CONTACT_LIMITS.messageMax}
           value={values.message}
@@ -146,20 +140,39 @@ export function ContactForm() {
       </Field>
 
       <div>
-        <button type="submit" className={`${button.button} ${button.primary} ${styles.submit}`}>
+        <button type="submit" className={`${button.button} ${styles.submit}`}>
           {copy.submit}
-          <Send size={17} className={button.arrow} aria-hidden="true" />
+          <Mail size={17} className={button.arrow} aria-hidden="true" />
         </button>
 
         <div role="status" aria-live="polite" className={styles.statusRegion}>
-          {showDemoNotice && (
-            <p className={styles.status} data-tone="info">
-              <Info size={18} aria-hidden="true" />
-              {copy.demoNotice}
+          {status !== 'idle' && (
+            <p className={styles.status} data-tone={status === 'copyFailed' ? 'error' : 'success'}>
+              {status === 'copyFailed' ? (
+                <CircleAlert size={18} aria-hidden="true" />
+              ) : (
+                <CircleCheck size={18} aria-hidden="true" />
+              )}
+              {copy[status]}
             </p>
           )}
         </div>
       </div>
+
+      <div className={styles.direct}>
+        <p>
+          {copy.direct}{' '}
+          <a href={`mailto:${STUDIO_EMAIL}`} className={styles.address}>
+            {STUDIO_EMAIL}
+          </a>
+        </p>
+        <button type="button" className={styles.copy} onClick={handleCopy}>
+          <Copy size={15} aria-hidden="true" />
+          {copy.copy}
+        </button>
+      </div>
+
+      <p className={styles.privacy}>{copy.privacy(STUDIO_EMAIL)}</p>
     </form>
   );
 }

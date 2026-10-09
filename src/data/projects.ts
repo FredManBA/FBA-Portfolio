@@ -1,8 +1,9 @@
 import type { Project } from '../types';
 
 /**
- * Portfolio projects. To add one: put its real screenshot in assets/screenshots,
- * run `npm run images` and append an object here.
+ * Studio projects, grouped on the page by category (games, web, software) and sorted by `order`
+ * inside each area. To add one: put its real screenshot in assets/screenshots, run
+ * `npm run images` and append an object here.
  */
 export const PROJECTS: readonly Project[] = [
   {
@@ -59,7 +60,6 @@ export const PROJECTS: readonly Project[] = [
     ],
     links: {
       demo: 'https://properties.costarica360.workers.dev/',
-      repository: { visibility: 'public', url: 'https://github.com/FredManBA/Web360' },
     },
     screenshot: {
       file: 'costa-rica-360',
@@ -72,7 +72,7 @@ export const PROJECTS: readonly Project[] = [
   {
     id: 'techbuilder',
     name: 'TechBuilder',
-    category: 'web',
+    category: 'software',
     status: 'live',
     order: 2,
     tagline: {
@@ -126,7 +126,6 @@ export const PROJECTS: readonly Project[] = [
     ],
     links: {
       demo: 'https://techbuilder.pages.dev/',
-      repository: { visibility: 'public', url: 'https://github.com/FredManBA/TechBuilder' },
     },
     screenshot: {
       file: 'techbuilder',
@@ -137,8 +136,179 @@ export const PROJECTS: readonly Project[] = [
     },
   },
   {
+    id: 'editor-360',
+    name: 'Editor 360',
+    category: 'software',
+    status: 'live',
+    order: 1,
+    tagline: {
+      es: 'Editor de fotos panorámicas 360°',
+      en: '360° panoramic photo editor',
+    },
+    description: {
+      es: 'Editor web para fotografías 360°: añade textos, líneas y zonas ancladas a la esfera, oculta lo sensible y exporta una imagen nueva a la resolución original.',
+      en: 'A web editor for 360° photos: add text, lines and zones anchored to the sphere, hide sensitive areas and export a new image at the original resolution.',
+    },
+    features: {
+      es: [
+        'Visor 360° con arrastre, zoom y soporte táctil',
+        'Varios panoramas en el mismo proyecto',
+        'Textos con estilo y tipografías propias',
+        'Líneas y zonas con vértices editables',
+        'Censura de regiones, sólida o pixelada',
+        'Capas con orden, visibilidad y bloqueo',
+        'Deshacer, rehacer y atajos de teclado',
+        'Exportación PNG o JPEG a la resolución original',
+        'JPEG 360° con metadatos GPano',
+        'Guardado local y archivo de proyecto .editor360',
+      ],
+      en: [
+        '360° viewer with drag, zoom and touch support',
+        'Several panoramas in the same project',
+        'Styled text with bundled typefaces',
+        'Lines and zones with editable vertices',
+        'Solid or pixelated region censoring',
+        'Layers with order, visibility and locking',
+        'Undo, redo and keyboard shortcuts',
+        'PNG or JPEG export at the original resolution',
+        '360° JPEG with GPano metadata',
+        'Local saving and .editor360 project files',
+      ],
+    },
+    cardTechnologies: ['react', 'typescript', 'threejs', 'vite'],
+    technologies: [
+      'react',
+      'typescript',
+      'vite',
+      'threejs',
+      'web-workers',
+      'indexeddb',
+      'cloudflare-workers',
+    ],
+    links: {
+      demo: 'https://editor-360.dilanorozco-viales.workers.dev/',
+    },
+    screenshot: {
+      file: 'editor-360',
+      alt: {
+        es: 'Editor 360 con una panorámica aérea de dron: una zona marca una plantación junto a la carretera, con el texto «Plantación» y el panel de capas.',
+        en: 'Editor 360 with an aerial drone panorama: a zone outlines a plantation beside the road, labelled “Plantación”, next to the layers panel.',
+      },
+    },
+  },
+  {
+    id: 'retrom',
+    name: 'retroM',
+    category: 'games',
+    status: 'live',
+    order: 3,
+    tagline: {
+      es: 'Oficina virtual retro y compartida',
+      en: 'A shared retro virtual office',
+    },
+    description: {
+      es: 'Un escritorio de los 90 en el navegador donde cada persona es una criatura pixel art: chat en burbujas, notas, dibujo compartido y cartas que viajan en avioncito, todo en tiempo real.',
+      en: 'A 90s desktop in the browser where everyone is a pixel art creature: bubble chat, sticky notes, shared drawing and letters that fly over as paper planes, all in real time.',
+    },
+    features: {
+      es: [
+        'Salas compartidas de hasta 6 personas',
+        'Criaturas pixel art con física: alzar, lanzar y golpear',
+        'Chat en burbujas con historial estilo MSN',
+        'Notas de texto o lista con forma de corazón o nube',
+        'Dibujo en píxeles sobre el escritorio compartido',
+        'Cartas con adjuntos que viajan en avioncito',
+        'Sonidos suaves y una voz para cada mascota',
+        'Cuatro temas y paleta personalizada',
+        'Cuentas propias e invitaciones a las salas',
+        'Todo sincronizado en tiempo real',
+      ],
+      en: [
+        'Shared rooms for up to 6 people',
+        'Pixel art creatures with physics: pick up, throw and bonk',
+        'Bubble chat with an MSN-style history',
+        'Text or checklist notes shaped like hearts or clouds',
+        'Pixel drawing on the shared desktop',
+        'Letters with attachments that fly over as paper planes',
+        'Soft sounds and a voice for each pet',
+        'Four themes plus a custom palette',
+        'Personal accounts and room invitations',
+        'Everything synced in real time',
+      ],
+    },
+    cardTechnologies: ['react', 'typescript', 'canvas', 'cloudflare'],
+    technologies: [
+      'react',
+      'typescript',
+      'vite',
+      'canvas',
+      'web-audio',
+      'cloudflare-pages',
+      'durable-objects',
+      'cloudflare-r2',
+      'vitest',
+    ],
+    links: {
+      demo: 'https://retrom.pages.dev/',
+    },
+    screenshot: {
+      file: 'retrom',
+      alt: {
+        es: 'Escritorio de retroM: una nota de pendientes, notas con forma de corazón y de nube, un sol dibujado, la ventana del historial, una carta recién llegada y una rana y un gato hablando con burbujas.',
+        en: 'The retroM desktop: a to-do note, heart and cloud shaped notes, a drawn sun, the chat history window, a freshly landed letter and a frog and a cat talking in speech bubbles.',
+      },
+    },
+  },
+  {
+    id: 'gestion-politica',
+    name: 'Gestión Política',
+    category: 'software',
+    status: 'in-use',
+    order: 3,
+    tagline: {
+      es: 'Excel avanzado para un partido político',
+      en: 'Advanced Excel workbook for a political party',
+    },
+    description: {
+      es: 'Libro de Excel con fórmulas avanzadas y bases de datos relacionadas que centraliza personas, estructura, actividades, recursos e información electoral de un partido.',
+      en: 'An Excel workbook with advanced formulas and related databases that brings together a party’s people, structure, activities, resources and electoral data.',
+    },
+    features: {
+      es: [
+        'Base de datos con validación y detección de duplicados',
+        'Buscador por nombre o sección con fórmulas dinámicas',
+        'Dashboard automático con indicadores y gráficos',
+        'Gestión de eventos, confirmaciones y asistencia',
+        'Seguimiento de llamadas y contactos',
+        'Organigrama dinámico de cargos y jerarquías',
+        'Control de tareas, presupuestos y apoyos',
+        'Análisis electoral con históricos y metas por sección',
+      ],
+      en: [
+        'Database with validation and duplicate detection',
+        'Search by name or section with dynamic formulas',
+        'Automatic dashboard with indicators and charts',
+        'Event planning, confirmations and attendance',
+        'Call and contact follow-up',
+        'Dynamic org chart of roles and hierarchies',
+        'Task, budget and support tracking',
+        'Electoral analysis with history and goals per section',
+      ],
+    },
+    cardTechnologies: ['excel'],
+    technologies: ['excel'],
+    links: {},
+    screenshot: {
+      file: 'gestion-politica',
+      alt: {
+        es: 'Composición del libro de Excel: el dashboard general en un portátil, rodeado por las hojas de personas, buscador, llamadas, eventos y presupuesto.',
+        en: 'The Excel workbook: the general dashboard on a laptop, surrounded by the people, search, calls, events and budget sheets.',
+      },
+    },
+  },
+  {
     id: 'code-to-go',
-    name: 'Code To-Go',
+    name: 'Code To Go',
     category: 'web',
     status: 'live',
     order: 3,
@@ -174,14 +344,206 @@ export const PROJECTS: readonly Project[] = [
     technologies: ['react', 'tailwind', 'framer-motion', 'vite'],
     links: {
       demo: 'https://code-to-go.vercel.app/',
-      repository: { visibility: 'private' },
     },
     screenshot: {
       file: 'code-to-go',
       focus: 'left center',
       alt: {
-        es: 'Página de inicio de Code To-Go con el titular «Soluciones digitales rápidas y a medida».',
-        en: 'Code To-Go home page with its headline about fast, tailored digital solutions.',
+        es: 'Página de inicio de Code To Go con el titular «Soluciones digitales rápidas y a medida».',
+        en: 'Code To Go home page with its headline about fast, tailored digital solutions.',
+      },
+    },
+  },
+  {
+    id: 'tiny-kingdoms',
+    name: 'Tiny Kingdoms',
+    category: 'games',
+    status: 'live',
+    order: 1,
+    tagline: {
+      es: 'Estrategia casual en pixel art',
+      en: 'Casual pixel-art strategy',
+    },
+    description: {
+      es: 'Juego de estrategia en el navegador: construye tu reino, conquista hexágonos con recursos y lanza poderes enormes, contra la IA o en partidas online.',
+      en: 'A browser strategy game: build your kingdom, conquer resource hexes and cast huge powers, against the AI or in online matches.',
+    },
+    features: {
+      es: [
+        'Reinos y ejércitos que actúan solos con órdenes generales',
+        'Hexágonos conquistables con madera, piedra y cristal',
+        'Hechizos desbloqueables con mejoras',
+        'Eventos del mundo: lluvia de meteoritos y dragón errante',
+        'Poderes supremos por dominio del mapa',
+        'Multijugador online con salas por código',
+        'Niebla de guerra opcional',
+        'Efectos y música chiptune procedurales',
+      ],
+      en: [
+        'Kingdoms and armies that act on their own from general orders',
+        'Conquerable hexes with wood, stone and crystal',
+        'Unlockable spells with upgrades',
+        'World events: meteor showers and a wandering dragon',
+        'Supreme powers for dominating the map',
+        'Online multiplayer with code-based rooms',
+        'Optional fog of war',
+        'Procedural sound effects and chiptune music',
+      ],
+    },
+    cardTechnologies: ['typescript', 'canvas', 'vite', 'cloudflare'],
+    technologies: [
+      'typescript',
+      'canvas',
+      'web-audio',
+      'vite',
+      'cloudflare-workers',
+      'cloudflare-pages',
+    ],
+    links: {
+      demo: 'https://tiny-kingdoms.pages.dev/',
+    },
+    screenshot: {
+      file: 'tiny-kingdoms',
+      alt: {
+        es: 'Menú de Tiny Kingdoms sobre un mapa en pixel art con bosques, hexágonos y un castillo.',
+        en: 'Tiny Kingdoms menu over a pixel-art map with forests, hexes and a castle.',
+      },
+    },
+  },
+  {
+    id: 'phosphor',
+    name: 'Phosphor',
+    category: 'games',
+    status: 'development',
+    order: 2,
+    tagline: {
+      es: 'Simulador táctico con drones',
+      en: 'Tactical drone simulator',
+    },
+    description: {
+      es: 'Simulador táctico de operaciones con drones vivido a través de una vieja computadora militar: pantalla CRT de fósforo verde, visión nocturna y un HUD táctico sobre un mundo 3D low-poly.',
+      en: 'A tactical drone operations simulator played through an old military computer: a green phosphor CRT screen, night vision and a tactical HUD over a low-poly 3D world.',
+    },
+    features: {
+      es: [
+        'Sensores electroópticos, infrarrojos y de visión nocturna',
+        'Vista técnica sólida, alámbrica y de escaneo',
+        'Seguimiento y fijación de objetivos',
+        'Mapa táctico en tiempo real',
+        'Simulación de pantalla CRT',
+        'Mundo 3D low-poly construido por código',
+      ],
+      en: [
+        'Electro-optical, infrared and night vision sensors',
+        'Solid, wireframe and scan technical views',
+        'Target tracking and lock',
+        'Real-time tactical map',
+        'CRT screen simulation',
+        'Low-poly 3D world built from code',
+      ],
+    },
+    cardTechnologies: ['godot', 'gdscript', 'shaders'],
+    technologies: ['godot', 'gdscript', 'shaders', 'threejs'],
+    links: {},
+    screenshot: {
+      file: 'phosphor',
+      alt: {
+        es: 'Pantalla verde fósforo de Phosphor con la vista de un dron siguiendo un vehículo y paneles tácticos.',
+        en: 'Green phosphor Phosphor screen with a drone feed tracking a vehicle and tactical panels.',
+      },
+    },
+  },
+  {
+    id: 'mis-consentidos',
+    name: 'Pastelería Mis Consentidos',
+    category: 'web',
+    status: 'live',
+    order: 2,
+    tagline: {
+      es: 'Web y pedidos para una pastelería',
+      en: 'Website and orders for a bakery',
+    },
+    description: {
+      es: 'Sitio y sistema de gestión para una pastelería: catálogo público, constructor visual de queques, pedidos confirmados por WhatsApp y panel de administración con pagos, inventario y contabilidad.',
+      en: 'Website and management system for a bakery: public catalog, a visual cake builder, orders confirmed over WhatsApp and an admin panel with payments, inventory and accounting.',
+    },
+    features: {
+      es: [
+        'Vitrina y carta con precios',
+        'Constructor de queques animado de hasta 3 pisos',
+        'Pedidos con confirmación por WhatsApp',
+        'Panel web de pedidos, pagos, catálogo y ajustes',
+        'Inventario y recetas que descuentan insumos',
+        'Contabilidad de gestión con reportes y CSV',
+        'Panel móvil instalable (PWA)',
+      ],
+      en: [
+        'Showcase and menu with prices',
+        'Animated cake builder with up to 3 tiers',
+        'Orders confirmed over WhatsApp',
+        'Web panel for orders, payments, catalog and settings',
+        'Inventory and recipes that deduct supplies',
+        'Management accounting with reports and CSV',
+        'Installable mobile panel (PWA)',
+      ],
+    },
+    cardTechnologies: ['astro', 'typescript', 'cloudflare-d1', 'drizzle'],
+    technologies: ['astro', 'typescript', 'cloudflare-pages', 'cloudflare-d1', 'drizzle', 'pwa'],
+    links: {
+      demo: 'https://misconsentidos.pages.dev/',
+    },
+    screenshot: {
+      file: 'mis-consentidos',
+      alt: {
+        es: 'Página de inicio de Pastelería Mis Consentidos con el título «Queques y postres» y un pastel bajo una campana de cristal.',
+        en: 'Pastelería Mis Consentidos home page with the title "Queques y postres" and a cake under a glass dome.',
+      },
+    },
+  },
+  {
+    id: 'cut-elite',
+    name: 'CUT ELITE',
+    category: 'web',
+    status: 'live',
+    order: 4,
+    tagline: {
+      es: 'Reservas y gestión para una barbería',
+      en: 'Booking and management for a barbershop',
+    },
+    description: {
+      es: 'Sistema web para una barbería de una sola persona: reservas públicas, agenda con disponibilidad real, confirmación por WhatsApp, cobros, gastos y ajustes del negocio.',
+      en: 'A web system for a one-person barbershop: public booking, a schedule with real availability, WhatsApp confirmation, payments, expenses and business settings.',
+    },
+    features: {
+      es: [
+        'Reserva pública de citas',
+        'Disponibilidad por solapamiento real de horarios',
+        'Agenda con estados y reprogramación',
+        'Confirmación manual por WhatsApp',
+        'Cobros, ingresos y gastos',
+        'Horario, bloqueos y ajustes',
+        'Panel de administración protegido',
+      ],
+      en: [
+        'Public appointment booking',
+        'Availability based on real time-slot overlap',
+        'Schedule with statuses and rescheduling',
+        'Manual confirmation over WhatsApp',
+        'Payments, income and expenses',
+        'Opening hours, blocked days and settings',
+        'Protected admin panel',
+      ],
+    },
+    cardTechnologies: ['astro', 'typescript', 'cloudflare-d1', 'drizzle'],
+    technologies: ['astro', 'typescript', 'cloudflare-pages', 'cloudflare-d1', 'drizzle', 'vitest'],
+    links: {
+      demo: 'https://cut-elite.pages.dev/',
+    },
+    screenshot: {
+      file: 'cut-elite',
+      alt: {
+        es: 'Página de inicio de CUT ELITE con el titular «Tu mejor versión» y el logo plateado de la barbería.',
+        en: 'CUT ELITE home page with the headline "Tu mejor versión" and the barbershop silver logo.',
       },
     },
   },

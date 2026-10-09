@@ -1,6 +1,5 @@
-import '@fontsource-variable/inter/wght.css';
-import '@fontsource-variable/sora/wght.css';
-import '@fontsource-variable/jetbrains-mono/wght.css';
+import '@fontsource-variable/unbounded/wght.css';
+import '@fontsource-variable/figtree/wght.css';
 import './styles/tokens.css';
 import './styles/global.css';
 

@@ -1,12 +1,12 @@
 {
-  "name": "Fredman Bolívar Alfaro | Desarrollador de Software",
-  "short_name": "FBA",
-  "description": "Portafolio de Fredman Bolívar Alfaro: desarrollo web, software y experiencias interactivas.",
+  "name": "Needy Friends",
+  "short_name": "Needy Friends",
+  "description": "Estudio creativo independiente de videojuegos, sitios web y herramientas digitales.",
   "lang": "es",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#080c0f",
-  "theme_color": "#080c0f",
+  "background_color": "#170420",
+  "theme_color": "#170420",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }

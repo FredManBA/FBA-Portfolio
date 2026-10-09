@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Project } from '../types';
-import { filterProjects, getAvailableFilters, sortProjects } from './projects';
+import { filterProjects, getAvailableFilters, getStatusLabel, sortProjects } from './projects';
 
 function makeProject(overrides: Partial<Project>): Project {
   return {
@@ -14,7 +14,7 @@ function makeProject(overrides: Partial<Project>): Project {
     features: { es: [], en: [] },
     cardTechnologies: ['react'],
     technologies: ['react'],
-    links: { repository: { visibility: 'private' } },
+    links: {},
     screenshot: { file: 'sample', alt: { es: 'Muestra', en: 'Sample' } },
     ...overrides,
   };
@@ -22,12 +22,13 @@ function makeProject(overrides: Partial<Project>): Project {
 
 const web = makeProject({ id: 'web', order: 2 });
 const game = makeProject({ id: 'game', category: 'games', order: 3 });
-const upcomingGame = makeProject({
-  id: 'upcoming-game',
+const gameInDevelopment = makeProject({
+  id: 'game-in-development',
   category: 'games',
-  status: 'upcoming',
+  status: 'development',
   order: 1,
 });
+const tool = makeProject({ id: 'tool', category: 'software', order: 1 });
 
 describe('project filters', () => {
   it('only offers filters that have projects', () => {
@@ -37,12 +38,12 @@ describe('project filters', () => {
     ]);
   });
 
-  it('adds games and coming soon automatically when such projects exist', () => {
-    expect(getAvailableFilters([web, game, upcomingGame])).toEqual([
-      { id: 'all', count: 3 },
-      { id: 'web', count: 1 },
+  it('lists the areas in page order: games, web, software', () => {
+    expect(getAvailableFilters([tool, web, game, gameInDevelopment])).toEqual([
+      { id: 'all', count: 4 },
       { id: 'games', count: 2 },
-      { id: 'upcoming', count: 1 },
+      { id: 'web', count: 1 },
+      { id: 'software', count: 1 },
     ]);
   });
 
@@ -50,17 +51,29 @@ describe('project filters', () => {
     expect(getAvailableFilters([])).toEqual([]);
   });
 
-  it('filters by category and by upcoming status', () => {
-    const projects = [web, game, upcomingGame];
-    expect(filterProjects(projects, 'all')).toHaveLength(3);
+  it('filters by area', () => {
+    const projects = [web, game, gameInDevelopment, tool];
+    expect(filterProjects(projects, 'all')).toHaveLength(4);
     expect(filterProjects(projects, 'web').map((p) => p.id)).toEqual(['web']);
-    expect(filterProjects(projects, 'games').map((p) => p.id)).toEqual(['game', 'upcoming-game']);
-    expect(filterProjects(projects, 'upcoming').map((p) => p.id)).toEqual(['upcoming-game']);
+    expect(filterProjects(projects, 'games').map((p) => p.id)).toEqual([
+      'game',
+      'game-in-development',
+    ]);
+    expect(filterProjects(projects, 'software').map((p) => p.id)).toEqual(['tool']);
   });
 
   it('sorts by the order field without mutating the input', () => {
-    const input = [web, game, upcomingGame];
-    expect(sortProjects(input).map((p) => p.id)).toEqual(['upcoming-game', 'web', 'game']);
-    expect(input.map((p) => p.id)).toEqual(['web', 'game', 'upcoming-game']);
+    const input = [web, game, gameInDevelopment];
+    expect(sortProjects(input).map((p) => p.id)).toEqual(['game-in-development', 'web', 'game']);
+    expect(input.map((p) => p.id)).toEqual(['web', 'game', 'game-in-development']);
+  });
+});
+
+describe('status label', () => {
+  it('reads released games as playable and keeps every other status', () => {
+    expect(getStatusLabel(game)).toBe('playable');
+    expect(getStatusLabel(gameInDevelopment)).toBe('development');
+    expect(getStatusLabel(web)).toBe('live');
+    expect(getStatusLabel(tool)).toBe('live');
   });
 });

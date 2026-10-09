@@ -1,63 +1,87 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { STUDIO_EMAIL } from '../../data/site';
 import { renderWithProviders } from '../../test/render';
+import { openMailApp } from '../../utils/contact';
 import { ContactForm } from './ContactForm';
 
-async function fillForm(user: ReturnType<typeof userEvent.setup>, email = 'ana@example.com') {
-  await user.type(screen.getByLabelText('Nombre'), 'Ana Mora');
-  await user.type(screen.getByLabelText('Correo'), email);
-  await user.type(screen.getByLabelText('Mensaje'), 'Quiero cotizar un sitio web.');
-}
+vi.mock('../../utils/contact', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../utils/contact')>()),
+  openMailApp: vi.fn(),
+}));
+
+const MESSAGE_LABEL = '¿Qué quieres construir?';
+const SUBMIT = 'Abrir en mi correo';
 
 describe('contact form', () => {
-  it('validates every field and focuses the first invalid one', async () => {
+  beforeEach(() => {
+    vi.mocked(openMailApp).mockClear();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('validates both fields and focuses the first invalid one', async () => {
     const user = userEvent.setup();
     renderWithProviders(<ContactForm />);
 
-    await user.click(screen.getByRole('button', { name: 'Enviar mensaje' }));
+    await user.click(screen.getByRole('button', { name: SUBMIT }));
 
     expect(screen.getByText('Escribe tu nombre.')).toBeInTheDocument();
-    expect(screen.getByText('Escribe tu correo.')).toBeInTheDocument();
-    expect(screen.getByText('Escribe tu mensaje.')).toBeInTheDocument();
+    expect(screen.getByText('Cuéntanos qué quieres construir.')).toBeInTheDocument();
     const name = screen.getByLabelText('Nombre');
     expect(name).toHaveFocus();
     expect(name).toHaveAttribute('aria-invalid', 'true');
     expect(name).toHaveAccessibleDescription('Escribe tu nombre.');
+    expect(openMailApp).not.toHaveBeenCalled();
   });
 
-  it('rejects an invalid email and clears the error once corrected', async () => {
+  it('opens the visitor mail app with the subject and signed message filled in', async () => {
     const user = userEvent.setup();
     renderWithProviders(<ContactForm />);
-    await fillForm(user, 'ana@example');
+    await user.type(screen.getByLabelText('Nombre'), 'Ana Mora');
+    await user.type(screen.getByLabelText(MESSAGE_LABEL), 'Queremos un juego para nuestra marca.');
 
-    await user.click(screen.getByRole('button', { name: 'Enviar mensaje' }));
+    await user.click(screen.getByRole('button', { name: SUBMIT }));
 
-    const email = screen.getByLabelText('Correo');
-    expect(email).toHaveFocus();
-    expect(email).toHaveAccessibleDescription(
-      'Escribe un correo válido, por ejemplo nombre@dominio.com.',
+    expect(openMailApp).toHaveBeenCalledOnce();
+    const [href] = vi.mocked(openMailApp).mock.calls[0] ?? [''];
+    const url = new URL(href);
+    expect(url.protocol).toBe('mailto:');
+    expect(url.pathname).toBe(STUDIO_EMAIL);
+    expect(url.searchParams.get('subject')).toBe(
+      'Propuesta de Ana Mora desde la web de Needy Friends',
     );
-
-    await user.type(email, '.com');
-
-    expect(email).toHaveAttribute('aria-invalid', 'false');
-    expect(screen.queryByText(/Escribe un correo válido/)).not.toBeInTheDocument();
+    expect(url.searchParams.get('body')).toBe('Queremos un juego para nuestra marca.\n\nAna Mora');
+    expect(screen.getByRole('status')).toHaveTextContent('Abrimos tu aplicación de correo');
   });
 
-  it('shows the demo notice without sending anything', async () => {
-    const fetchMock = vi.fn();
-    vi.stubGlobal('fetch', fetchMock);
+  it('shows the studio address with a copy button and a privacy note', async () => {
+    // user-event installs its own clipboard stub on setup.
     const user = userEvent.setup();
     renderWithProviders(<ContactForm />);
-    await fillForm(user);
 
-    await user.click(screen.getByRole('button', { name: 'Enviar mensaje' }));
+    expect(screen.getByRole('link', { name: STUDIO_EMAIL })).toHaveAttribute(
+      'href',
+      `mailto:${STUDIO_EMAIL}`,
+    );
+    expect(screen.getByText(/Solo lo usamos para responderte/)).toBeInTheDocument();
 
-    expect(
-      screen.getByText('Demo visual — este formulario no realiza envíos.'),
-    ).toBeInTheDocument();
-    expect(fetchMock).not.toHaveBeenCalled();
-    expect(screen.getByLabelText('Mensaje')).toHaveValue('Quiero cotizar un sitio web.');
+    await user.click(screen.getByRole('button', { name: 'Copiar correo' }));
+
+    expect(await screen.findByText('Correo copiado.')).toBeInTheDocument();
+    await expect(navigator.clipboard.readText()).resolves.toBe(STUDIO_EMAIL);
+  });
+
+  it('explains how to copy by hand when the clipboard is refused', async () => {
+    const user = userEvent.setup();
+    vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValue(new Error('denied'));
+    renderWithProviders(<ContactForm />);
+
+    await user.click(screen.getByRole('button', { name: 'Copiar correo' }));
+
+    expect(await screen.findByText(/No se pudo copiar/)).toBeInTheDocument();
   });
 });

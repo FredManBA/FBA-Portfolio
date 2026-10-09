@@ -1,12 +1,12 @@
 import { m, useIsPresent, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Check, Lock, X } from 'lucide-react';
+import { ArrowUpRight, Check, X } from 'lucide-react';
 import { useEffect, useRef, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
-import { SiGithub } from 'react-icons/si';
 import { getTechnology } from '../../data/technologies';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalBehavior } from '../../hooks/useModalBehavior';
 import type { Project } from '../../types';
+import { getStatusLabel } from '../../utils/projects';
 import { EASE_OUT, MEDIA_TRANSITION } from '../motion/easing';
 import { TechIcon } from '../technologies/TechIcon';
 import button from '../ui/button.module.css';
@@ -45,10 +45,11 @@ export function ProjectDialog({ project, onClose, returnFocusRef }: ProjectDialo
   }, [onClose]);
 
   const idPrefix = `project-dialog-${project.id}`;
-  const { demo, repository } = project.links;
+  const { demo } = project.links;
+  const status = getStatusLabel(project);
 
   return createPortal(
-    <div className={styles.root}>
+    <div className={styles.root} data-area={project.category}>
       <m.div
         className={styles.backdrop}
         aria-hidden="true"
@@ -81,7 +82,7 @@ export function ProjectDialog({ project, onClose, returnFocusRef }: ProjectDialo
             layoutId={reduceMotion ? undefined : `project-media-${project.id}`}
             layoutCrossfade={false}
             className={styles.media}
-            style={{ borderRadius: 16 }}
+            style={{ borderRadius: 24 }}
             transition={MEDIA_TRANSITION}
           >
             <ProjectImage
@@ -119,9 +120,7 @@ export function ProjectDialog({ project, onClose, returnFocusRef }: ProjectDialo
             <div className={styles.summary}>
               <p className={styles.meta}>
                 <span className={styles.category}>{t.projects.categories[project.category]}</span>
-                {project.status === 'upcoming' && (
-                  <span className={styles.badge}>{t.projects.upcoming}</span>
-                )}
+                <span className={styles.badge}>{t.projects.status[status]}</span>
               </p>
               <h2 id={`${idPrefix}-title`} className={styles.title}>
                 {project.name}
@@ -131,35 +130,20 @@ export function ProjectDialog({ project, onClose, returnFocusRef }: ProjectDialo
                 {project.description[language]}
               </p>
 
-              <div className={styles.actions}>
-                {demo && (
+              {demo && (
+                <div className={styles.actions}>
                   <a
                     href={demo}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`${button.button} ${button.primary}`}
                   >
-                    {t.dialog.viewDemo} <span className="sr-only">{t.projects.newTab}</span>
+                    {project.category === 'games' ? t.dialog.play : t.dialog.viewDemo}{' '}
+                    <span className="sr-only">{t.projects.newTab}</span>
                     <ArrowUpRight size={18} className={button.arrow} aria-hidden="true" />
                   </a>
-                )}
-                {repository.visibility === 'public' ? (
-                  <a
-                    href={repository.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`${button.button} ${button.secondary}`}
-                  >
-                    <SiGithub size={17} aria-hidden="true" />
-                    {t.dialog.viewCode} <span className="sr-only">{t.projects.newTab}</span>
-                  </a>
-                ) : (
-                  <span className={styles.private}>
-                    <Lock size={16} aria-hidden="true" />
-                    {t.projects.privateCode}
-                  </span>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
             <div className={styles.details}>

@@ -1,0 +1,123 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(24px, 4vw, 56px) var(--section-space);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(20px, 5vw, 72px);
+  align-items: end;
+}
+
+.title {
+  font-size: var(--step-3);
+  letter-spacing: -0.03em;
+  text-shadow: 0.05em 0.06em 0 var(--extrude);
+}
+
+.intro {
+  max-width: 44ch;
+  color: var(--color-text-2);
+  font-size: var(--step-1);
+  line-height: 1.5;
+}
+
+.crew {
+  --member-size: clamp(96px, 12vw, 132px);
+
+  position: relative;
+  margin-top: clamp(48px, 7vw, 88px);
+}
+
+.list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 40px);
+}
+
+.constellation {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.constellation path {
+  fill: none;
+  stroke: rgb(183 121 228 / 0.35);
+  stroke-dasharray: 3 7;
+  stroke-width: 1.2;
+}
+
+.member {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 8px;
+  text-align: center;
+}
+
+.member > :first-child {
+  margin-bottom: 8px;
+}
+
+.name {
+  font-size: var(--step-1);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.role {
+  color: var(--color-muted);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 960px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .crew {
+    --member-size: 84px;
+  }
+
+  .list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .constellation {
+    display: none;
+  }
+
+  .member {
+    grid-template-rows: 1fr auto auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 18px;
+    row-gap: 2px;
+    align-items: center;
+    justify-items: start;
+    text-align: left;
+  }
+
+  .member > :first-child {
+    grid-row: 1 / -1;
+    margin: 0;
+  }
+
+  .name {
+    grid-row: 2;
+  }
+
+  .role {
+    grid-row: 3;
+  }
+}

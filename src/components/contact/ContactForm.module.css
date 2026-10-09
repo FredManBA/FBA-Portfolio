@@ -1,72 +1,68 @@
+/* The form sits on a cream card over the warm contact slab, so it uses dark text. */
 .form {
   position: relative;
   display: grid;
-  gap: 20px;
-}
-
-.row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: 16px;
 }
 
 .field {
   display: grid;
   align-content: start;
-  gap: 8px;
+  gap: 6px;
 }
 
 .label {
-  color: var(--color-text);
-  font-size: 0.875rem;
-  font-weight: 600;
+  color: var(--plum);
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .input {
   width: 100%;
-  min-height: 52px;
-  padding: 13px 15px;
-  border: 1px solid var(--color-border);
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1.5px solid rgb(66 20 81 / 0.2);
   border-radius: var(--radius-md);
-  background: #0b1115;
-  color: var(--color-text);
+  background: var(--cream);
+  color: var(--space);
   font-size: 1rem;
   line-height: 1.4;
   transition:
-    border-color 0.2s var(--ease-out),
-    box-shadow 0.2s var(--ease-out);
+    border-color 0.16s var(--ease-out),
+    box-shadow 0.16s var(--ease-out);
 }
 
 .input:hover {
-  border-color: var(--color-border-strong);
+  border-color: rgb(66 20 81 / 0.38);
 }
 
 .input:focus-visible {
-  border-color: rgb(var(--color-primary-rgb) / 0.85);
+  border-color: var(--electric);
   outline: none;
-  box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb) / 0.2);
+  box-shadow: 0 0 0 4px rgb(128 51 172 / 0.18);
 }
 
 .input[aria-invalid='true'] {
-  border-color: rgb(255 123 114 / 0.75);
+  border-color: #c0392b;
 }
 
 .input[aria-invalid='true']:focus-visible {
-  box-shadow: 0 0 0 3px rgb(255 123 114 / 0.2);
+  box-shadow: 0 0 0 4px rgb(192 57 43 / 0.16);
 }
 
 .textarea {
-  min-height: 160px;
+  min-height: 128px;
   resize: vertical;
-  line-height: 1.6;
+  line-height: 1.55;
 }
 
 .error {
   display: flex;
   align-items: flex-start;
   gap: 6px;
-  color: var(--color-danger);
-  font-size: 0.8125rem;
+  color: #a12a20;
+  font-size: 0.85rem;
+  font-weight: 600;
   line-height: 1.4;
 }
 
@@ -76,9 +72,20 @@
 }
 
 .submit {
-  width: 100%;
-  min-height: 54px;
-  font-size: 1rem;
+  background: var(--space);
+  color: var(--cream);
+  box-shadow: 0 0.22em 0 var(--nebula);
+}
+
+@media (hover: hover) {
+  .submit:hover {
+    background: var(--nebula);
+  }
+}
+
+.submit:active {
+  box-shadow: 0 0.04em 0 var(--nebula);
+  transform: translateY(0.18em) scale(0.98);
 }
 
 /* The live region stays in the accessibility tree; it only takes space with content. */
@@ -90,10 +97,10 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 14px 16px;
-  border: 1px solid;
+  padding: 12px 14px;
   border-radius: var(--radius-md);
-  font-size: 0.9375rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   line-height: 1.5;
 }
 
@@ -102,18 +109,65 @@
   margin-top: 2px;
 }
 
-.status[data-tone='info'] {
-  border-color: rgb(var(--color-primary-rgb) / 0.35);
-  background: rgb(var(--color-primary-rgb) / 0.07);
-  color: var(--color-text);
+.status[data-tone='success'] {
+  background: rgb(46 125 80 / 0.12);
+  color: #1f5c3a;
 }
 
-.status[data-tone='info'] svg {
-  color: var(--color-primary);
+.status[data-tone='error'] {
+  background: rgb(192 57 43 / 0.1);
+  color: #a12a20;
+}
+
+/* The studio address stays visible as a fallback when no mail app opens. */
+.direct {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgb(66 20 81 / 0.14);
+  color: #3a1243;
+  font-size: 0.95rem;
+}
+
+.address {
+  color: var(--electric);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1.5px solid rgb(66 20 81 / 0.25);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--plum);
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: background-color 0.16s var(--ease-out);
+}
+
+@media (hover: hover) {
+  .copy:hover {
+    background: rgb(66 20 81 / 0.08);
+  }
+}
+
+.privacy {
+  color: #5a3a63;
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
 
 @media (max-width: 559px) {
-  .row {
-    grid-template-columns: minmax(0, 1fr);
+  .submit {
+    width: 100%;
   }
 }

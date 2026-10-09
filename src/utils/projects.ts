@@ -1,27 +1,24 @@
-import type { Project } from '../types';
+import type { Project, ProjectCategory } from '../types';
 
-export type ProjectFilterId = 'all' | 'web' | 'games' | 'upcoming';
+export type ProjectFilterId = 'all' | ProjectCategory;
 
 export interface ProjectFilterOption {
   id: ProjectFilterId;
   count: number;
 }
 
-const FILTER_MATCHERS: Record<ProjectFilterId, (project: Project) => boolean> = {
-  all: () => true,
-  web: (project) => project.category === 'web',
-  games: (project) => project.category === 'games',
-  upcoming: (project) => project.status === 'upcoming',
-};
+export type ProjectStatusLabel = 'live' | 'playable' | 'development' | 'in-use';
 
-const FILTER_ORDER: readonly ProjectFilterId[] = ['all', 'web', 'games', 'upcoming'];
+const FILTER_ORDER: readonly ProjectFilterId[] = ['all', 'games', 'web', 'software'];
 
 export function sortProjects(projects: readonly Project[]): Project[] {
   return [...projects].sort((a, b) => a.order - b.order);
 }
 
 export function filterProjects(projects: readonly Project[], filter: ProjectFilterId): Project[] {
-  return projects.filter(FILTER_MATCHERS[filter]);
+  return filter === 'all'
+    ? [...projects]
+    : projects.filter((project) => project.category === filter);
 }
 
 /** Filters with at least one project. "All" is listed whenever there is any project. */
@@ -29,4 +26,12 @@ export function getAvailableFilters(projects: readonly Project[]): ProjectFilter
   return FILTER_ORDER.map((id) => ({ id, count: filterProjects(projects, id).length })).filter(
     ({ count }) => count > 0,
   );
+}
+
+/** A released game reads as "playable"; everything else uses its own status. */
+export function getStatusLabel(project: Project): ProjectStatusLabel {
+  if (project.status === 'live' && project.category === 'games') {
+    return 'playable';
+  }
+  return project.status;
 }

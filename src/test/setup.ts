@@ -35,6 +35,9 @@ class IntersectionObserverStub {
 
 window.IntersectionObserver = IntersectionObserverStub as unknown as typeof IntersectionObserver;
 window.scrollTo = () => undefined;
+// jsdom has no canvas; the decorative star field simply draws nothing.
+HTMLCanvasElement.prototype.getContext = (() =>
+  null) as typeof HTMLCanvasElement.prototype.getContext;
 Element.prototype.scrollIntoView = () => undefined;
 
 // No test may reach the network; tests that submit the form stub fetch explicitly.

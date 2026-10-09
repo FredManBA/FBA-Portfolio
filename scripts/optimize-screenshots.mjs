@@ -11,7 +11,7 @@ const OUTPUT_DIR = 'public/projects';
 const MANIFEST_PATH = 'src/data/screenshots.json';
 const CARD_WIDTH = 800;
 const MAX_WIDTH = 1920;
-const BACKGROUND = '#080c0f';
+const BACKGROUND = '#170420';
 
 const sources = (await readdir(SOURCE_DIR))
   .filter((file) => /\.(png|jpe?g|webp)$/i.test(file))

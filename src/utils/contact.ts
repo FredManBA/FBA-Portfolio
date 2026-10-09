@@ -1,6 +1,9 @@
+/**
+ * The contact form never sends anything itself: it prepares an email in the visitor's own mail
+ * app, so the site processes no personal data and needs no form service.
+ */
 export interface ContactValues {
   name: string;
-  email: string;
   message: string;
 }
 
@@ -10,31 +13,25 @@ export type ContactErrorKey =
   | 'nameRequired'
   | 'nameTooShort'
   | 'nameTooLong'
-  | 'emailRequired'
-  | 'emailInvalid'
-  | 'emailTooLong'
   | 'messageRequired'
   | 'messageTooShort'
   | 'messageTooLong';
 
 export type ContactErrors = Partial<Record<ContactField, ContactErrorKey>>;
 
-export const CONTACT_FIELDS: readonly ContactField[] = ['name', 'email', 'message'];
+export const CONTACT_FIELDS: readonly ContactField[] = ['name', 'message'];
 
 export const CONTACT_LIMITS = {
   nameMin: 2,
   nameMax: 100,
-  emailMax: 254,
   messageMin: 10,
-  messageMax: 4000,
+  // Keeps the encoded mailto link short enough for every mail app to open it.
+  messageMax: 1000,
 } as const;
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
 
 export function validateContact(values: ContactValues): ContactErrors {
   const errors: ContactErrors = {};
   const name = values.name.trim();
-  const email = values.email.trim();
   const message = values.message.trim();
 
   if (!name) {
@@ -43,14 +40,6 @@ export function validateContact(values: ContactValues): ContactErrors {
     errors.name = 'nameTooShort';
   } else if (name.length > CONTACT_LIMITS.nameMax) {
     errors.name = 'nameTooLong';
-  }
-
-  if (!email) {
-    errors.email = 'emailRequired';
-  } else if (email.length > CONTACT_LIMITS.emailMax) {
-    errors.email = 'emailTooLong';
-  } else if (!EMAIL_PATTERN.test(email)) {
-    errors.email = 'emailInvalid';
   }
 
   if (!message) {
@@ -62,4 +51,18 @@ export function validateContact(values: ContactValues): ContactErrors {
   }
 
   return errors;
+}
+
+/** A `mailto:` link with the subject and the message (signed with the name) already filled in. */
+export function buildMailto(
+  values: ContactValues,
+  { to, subject }: { to: string; subject: string },
+) {
+  const body = `${values.message.trim()}\n\n${values.name.trim()}`;
+  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+/** Hands the prepared email to the visitor's mail app. */
+export function openMailApp(href: string) {
+  window.location.assign(href);
 }

@@ -10,7 +10,7 @@ export interface LanguageContextValue {
 
 export const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-export const LANGUAGE_STORAGE_KEY = 'fba:language';
+export const LANGUAGE_STORAGE_KEY = 'needyfriends:language';
 
 export function isLanguage(value: unknown): value is Language {
   return value === 'es' || value === 'en';

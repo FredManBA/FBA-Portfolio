@@ -1,40 +1,76 @@
 .section {
+  padding-block: 0 clamp(64px, 8vw, 110px);
+}
+
+/* The warm moment of the page: a slab of marbled orange and gold with deep purple text. */
+.slab {
   position: relative;
   isolation: isolate;
-  padding-block: var(--section-space);
-  overflow: clip;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: start;
+  overflow: hidden;
+  padding: clamp(28px, 6vw, 72px);
+  border-radius: clamp(32px, 5vw, 56px);
+  background: var(--orange);
+  color: var(--space);
 }
 
-.section::after {
+.slab::after {
   content: '';
   position: absolute;
-  bottom: -320px;
-  left: 50%;
+  inset: 0;
   z-index: -1;
-  width: 900px;
-  height: 640px;
-  background: radial-gradient(closest-side, rgb(var(--color-primary-rgb) / 0.08), transparent);
-  transform: translateX(-50%);
-  pointer-events: none;
+  background: radial-gradient(70% 90% at 0% 0%, rgb(255 230 200 / 0.4), transparent 60%);
 }
 
-.layout {
+.fluid {
+  position: absolute;
+  inset: -10%;
+  z-index: -1;
+  background: repeating-linear-gradient(
+    128deg,
+    var(--gold) 0 6%,
+    var(--orange) 6% 15%,
+    #f7a35e 15% 20%,
+    #ee7d47 20% 27%,
+    var(--gold) 27% 33%
+  );
+  opacity: 0.9;
+  filter: url('#nf-marble-xl');
+}
+
+.copy {
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: clamp(40px, 6vw, 88px);
-  align-items: start;
+  gap: 20px;
+  min-width: 0;
 }
 
-.formPanel {
-  padding: clamp(20px, 3vw, 32px);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  background: linear-gradient(180deg, #121a20, #0d1317);
-  box-shadow: 0 30px 70px -40px rgb(0 0 0 / 0.9);
+.title {
+  font-size: var(--step-3);
+  letter-spacing: -0.03em;
+  text-shadow: 0.04em 0.05em 0 rgb(255 230 200 / 0.6);
 }
 
-@media (max-width: 1023px) {
-  .layout {
+.intro {
+  max-width: 40ch;
+  color: #3a1243;
+  font-size: var(--step-1);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.formCard {
+  min-width: 0;
+  padding: clamp(18px, 3vw, 28px);
+  border-radius: 28px;
+  background: rgb(253 248 242 / 0.9);
+  box-shadow: 0 30px 60px -30px rgb(80 20 40 / 0.6);
+}
+
+@media (max-width: 960px) {
+  .slab {
     grid-template-columns: minmax(0, 1fr);
   }
 }
