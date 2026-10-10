@@ -9,6 +9,9 @@ import button from '../ui/button.module.css';
 import styles from './Hero.module.css';
 import { OrbitStage } from './OrbitStage';
 
+/** Space left above the headline after the scroll cue, so it never sits under the header. */
+const COPY_SCROLL_OFFSET = 120;
+
 export function Hero() {
   const { t } = useLanguage();
   const heroRef = useRef<HTMLElement>(null);
@@ -16,8 +19,17 @@ export function Hero() {
   const reduceMotion = useReducedMotion();
   useHeroParallax(heroRef);
 
-  const showCopy = () =>
-    copyRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  // Scrolls the page itself (not the clipped hero), leaving room above the headline.
+  const showCopy = () => {
+    const copy = copyRef.current;
+    if (!copy) {
+      return;
+    }
+    window.scrollTo({
+      top: copy.getBoundingClientRect().top + window.scrollY - COPY_SCROLL_OFFSET,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+  };
 
   return (
     <section

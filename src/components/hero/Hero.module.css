@@ -2,6 +2,8 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  /* clip, unlike hidden, never lets the hero scroll internally (e.g. via scrollIntoView). */
+  overflow: clip;
   padding-block: calc(var(--header-height) + clamp(4px, 2vw, 20px)) clamp(190px, 22vw, 300px);
   background:
     radial-gradient(52% 46% at 82% 74%, rgb(242 140 82 / 0.42), transparent 70%),
