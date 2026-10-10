@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { App } from './App';
 
-const STATEMENT_ES = 'Un estudio indie que hace videojuegos, webs y herramientas.';
-const STATEMENT_EN = 'An indie studio making games, websites and tools.';
+const STATEMENT_ES = 'Creamos videojuegos, webs y herramientas digitales.';
+const STATEMENT_EN = 'We make games, websites and digital tools.';
 
 describe('brand', () => {
   it('names the studio in the main heading through the logo', () => {
@@ -55,7 +55,7 @@ describe('language', () => {
     expect(screen.getByRole('link', { name: 'See projects' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'English' })).toHaveAttribute('aria-pressed', 'true');
     expect(document.documentElement.lang).toBe('en');
-    expect(document.title).toBe('Needy Friends | Indie studio for games, websites and tools');
+    expect(document.title).toBe('Needy Friends | Games, websites and digital tools');
     expect(window.localStorage.getItem('needyfriends:language')).toBe('en');
   });
 

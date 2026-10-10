@@ -2,9 +2,9 @@ import type { Language } from '../types';
 
 const es = {
   meta: {
-    title: 'Needy Friends | Estudio indie de videojuegos, webs y herramientas',
+    title: 'Needy Friends | Videojuegos, webs y herramientas digitales',
     description:
-      'Needy Friends es un estudio creativo independiente: hacemos videojuegos, sitios web y herramientas digitales con curiosidad, cuidado y ganas de experimentar.',
+      'Needy Friends es un estudio creativo independiente. Creamos videojuegos, sitios web y herramientas digitales, y cuidamos cada proyecto desde la idea hasta el último detalle.',
   },
   skipToContent: 'Saltar al contenido',
   header: {
@@ -23,16 +23,16 @@ const es = {
     contact: 'Contacto',
   },
   hero: {
-    statement: 'Un estudio indie que hace videojuegos, webs y herramientas.',
+    statement: 'Creamos videojuegos, webs y herramientas digitales.',
     intro:
-      'Somos un equipo de tres. Diseñamos y programamos experiencias digitales con curiosidad, cuidado y muchas ganas de experimentar.',
+      'Somos un estudio independiente de tres personas. Diseñamos y desarrollamos cada proyecto de principio a fin, cuidando tanto la experiencia como el código.',
     primaryAction: 'Ver proyectos',
-    secondaryAction: 'Conocer el estudio',
+    secondaryAction: 'Conocer al equipo',
   },
   worlds: {
     title: 'Tres mundos, un mismo estudio',
     intro:
-      'Cada área tiene su propio carácter, pero todo sale del mismo lugar: las ganas de construir algo que nos emocione usar.',
+      'Cada área tiene su propio carácter, pero todas comparten la misma forma de trabajar: atención al detalle y productos que dan gusto usar.',
     filterLabel: 'Mostrar áreas',
     filters: {
       all: 'Todo',
@@ -43,15 +43,15 @@ const es = {
     areas: {
       games: {
         title: 'Videojuegos',
-        body: 'El lado más experimental y narrativo del estudio. Mundos, mecánicas e historias que queremos jugar nosotros primero.',
+        body: 'Juegos propios en los que exploramos mecánicas, mundos e historias con total libertad creativa.',
       },
       web: {
         title: 'Webs',
-        body: 'Sitios, plataformas y experiencias interactivas, hechas para verse bien y funcionar todavía mejor.',
+        body: 'Sitios y plataformas para negocios: rápidos, accesibles y fáciles de administrar.',
       },
       software: {
         title: 'Herramientas',
-        body: 'Programas a medida que resuelven problemas concretos: editores, sistemas de gestión y hojas de cálculo que trabajan por ti.',
+        body: 'Software a medida para tareas concretas: editores, sistemas de gestión y libros de Excel que automatizan el trabajo diario.',
       },
     },
   },
@@ -88,12 +88,13 @@ const es = {
   },
   team: {
     title: 'Somos tres',
-    intro: 'Un estudio pequeño donde cada proyecto pasa por las manos de todos.',
+    intro:
+      'Un equipo pequeño en el que los tres participamos en cada proyecto, del diseño al código.',
   },
   contact: {
     title: '¿Tienes una idea que necesita amigos?',
     intro:
-      'Cuéntanos qué quieres construir: un juego, una web, una herramienta o algo que todavía no tiene nombre.',
+      'Cuéntanos qué tienes en mente, ya sea un juego, una web, una herramienta o algo que todavía no tiene nombre, y te responderemos para conversarlo.',
     form: {
       label: 'Formulario de contacto',
       name: 'Nombre',
@@ -127,9 +128,9 @@ export type Translation = typeof es;
 
 const en: Translation = {
   meta: {
-    title: 'Needy Friends | Indie studio for games, websites and tools',
+    title: 'Needy Friends | Games, websites and digital tools',
     description:
-      'Needy Friends is an independent creative studio: we make games, websites and digital tools with curiosity, care and a real appetite for experimenting.',
+      'Needy Friends is an independent creative studio. We make games, websites and digital tools, and take care of every project from the first idea to the last detail.',
   },
   skipToContent: 'Skip to content',
   header: {
@@ -148,16 +149,16 @@ const en: Translation = {
     contact: 'Contact',
   },
   hero: {
-    statement: 'An indie studio making games, websites and tools.',
+    statement: 'We make games, websites and digital tools.',
     intro:
-      "We're a team of three. We design and build digital experiences with curiosity, care and a real appetite for experimenting.",
+      "We're an independent studio of three. We design and build every project end to end, caring as much about the experience as about the code.",
     primaryAction: 'See projects',
-    secondaryAction: 'Meet the studio',
+    secondaryAction: 'Meet the team',
   },
   worlds: {
     title: 'Three worlds, one studio',
     intro:
-      'Each area has its own character, but everything comes from the same place: wanting to build things we are excited to use.',
+      'Each area has its own character, but they all share the same way of working: attention to detail and products that are a pleasure to use.',
     filterLabel: 'Show areas',
     filters: {
       all: 'Everything',
@@ -168,15 +169,15 @@ const en: Translation = {
     areas: {
       games: {
         title: 'Games',
-        body: 'The most experimental, story-driven side of the studio. Worlds, mechanics and stories we want to play ourselves first.',
+        body: 'Our own games, where we explore mechanics, worlds and stories with complete creative freedom.',
       },
       web: {
         title: 'Web',
-        body: 'Websites, platforms and interactive experiences, made to look good and work even better.',
+        body: 'Websites and platforms for businesses: fast, accessible and easy to manage.',
       },
       software: {
         title: 'Tools',
-        body: 'Custom programs that solve concrete problems: editors, management systems and spreadsheets that do the work for you.',
+        body: 'Custom software for specific jobs: editors, management systems and Excel workbooks that automate everyday work.',
       },
     },
   },
@@ -212,12 +213,12 @@ const en: Translation = {
   },
   team: {
     title: 'There are three of us',
-    intro: 'A small studio where every project passes through everyone’s hands.',
+    intro: 'A small team where all three of us work on every project, from design to code.',
   },
   contact: {
     title: 'Got an idea that needs some friends?',
     intro:
-      "Tell us what you want to build: a game, a website, a tool or something that doesn't have a name yet.",
+      "Tell us what you have in mind, whether it's a game, a website, a tool or something that doesn't have a name yet, and we'll get back to you to talk it through.",
     form: {
       label: 'Contact form',
       name: 'Name',

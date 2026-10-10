@@ -55,8 +55,8 @@ test('switches to English without reloading and remembers the choice', async ({ 
 
   await page.getByRole('button', { name: 'English' }).click();
 
-  await expect(page.getByText('An indie studio making games, websites and tools.')).toBeVisible();
-  await expect(page).toHaveTitle('Needy Friends | Indie studio for games, websites and tools');
+  await expect(page.getByText('We make games, websites and digital tools.')).toBeVisible();
+  await expect(page).toHaveTitle('Needy Friends | Games, websites and digital tools');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
