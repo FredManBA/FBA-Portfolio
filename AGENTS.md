@@ -4,7 +4,7 @@
 
 - **Nombre:** Needy Friends (repositorio `FBA-Portfolio`, antes portafolio personal de Fredman Bolívar Alfaro).
 - **Propósito:** web del estudio indie Needy Friends (cuatro personas): presenta sus videojuegos, webs y herramientas con capturas reales, detalles y tecnologías, en español e inglés.
-- **Estado:** rebranding fusionado en `main` y publicado el 2026-10-09 en Cloudflare Pages, proyecto `needyfriends` (https://needyfriends.pages.dev). El sitio anterior (`fredmanfba`) se eliminó. El contacto prepara un correo en la aplicación del visitante (`mailto:`) y muestra la dirección del estudio: la web no recoge datos personales, no usa cookies ni analítica, y nunca enlaza al código de los proyectos.
+- **Estado:** rebranding fusionado en `main` y publicado el 2026-10-09 en Cloudflare Pages, proyecto `needyfriends` (https://needyfriends.pages.dev); el 2026-10-10 se publicó el cuarto integrante (AigenDev) con los planetas del equipo, que también representan las áreas. El sitio anterior (`fredmanfba`) se eliminó. El contacto prepara un correo en la aplicación del visitante (`mailto:`) y muestra la dirección del estudio: la web no recoge datos personales, no usa cookies ni analítica, y nunca enlaza al código de los proyectos.
 - **Logo:** provisional, recortado del arte original. No reconstruirlo con una fuente.
 - **Equipo:** Mariana, DilanOv, FreDev y AigenDev (nombres de la web, no necesariamente reales), rol «Dev», sin enlaces. No inventar cargos ni biografías.
 
