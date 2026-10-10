@@ -1,7 +1,7 @@
 import { AnimatePresence, m, type Variants } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { PROJECTS } from '../../data/projects';
-import { AREA_ORDER, SECTION_IDS } from '../../data/site';
+import { AREA_ORDER, AREA_PLANETS, SECTION_IDS } from '../../data/site';
 import { useLanguage } from '../../hooks/useLanguage';
 import type { Project, ProjectCategory } from '../../types';
 import {
@@ -35,7 +35,8 @@ const worldVariants: Variants = {
 };
 
 /**
- * "Three worlds, one studio": each area is its own planet with its projects underneath.
+ * "One universe, four friends": each area is shown as its members' planets, with its projects
+ * underneath.
  * The filter narrows the page to one area; following a link to a hidden area shows all again.
  */
 export function WorldsSection() {
@@ -100,7 +101,12 @@ export function WorldsSection() {
                 exit="exit"
               >
                 <div className={styles.visual}>
-                  <Planet kind={area} size="min(78%, 300px)" large />
+                  <Planet
+                    kind={AREA_PLANETS[area]}
+                    size="min(78cqi, 300px)"
+                    large
+                    motion="scroll"
+                  />
                 </div>
                 <div className={styles.head}>
                   <h3 id={titleId} className={styles.areaTitle}>

@@ -23,148 +23,413 @@
     radial-gradient(circle at 34% 30%, transparent 48%, rgb(23 4 32 / 0.78) 86%);
 }
 
+/*
+ * Each gas planet paints its surface on a long strip that slides sideways as the page scrolls, so
+ * the planet seems to turn on its axis.
+ */
 .surface {
   position: absolute;
   inset: -12%;
   z-index: 1;
 }
 
-.games {
-  --planet-glow: rgb(242 140 82 / 0.65);
-
-  background: var(--ember);
+/*
+ * Member planets, each one drawn from the reference its owner chose. The gas planets share the
+ * light and the rolling strip; AigenDev's pixel-art world is drawn on its own (see .pixelLayer).
+ */
+.mariana,
+.dilanov,
+.fredev {
+  --planet-rim: transparent;
 }
 
-/*
- * Marbled and banded planets paint their surface on a long strip that slides sideways as the
- * page scrolls, so the planet seems to turn on its axis. Band widths are tied to the planet
- * size, not to the strip, so every planet keeps its pattern.
- */
-.games .surface,
-.software .surface {
+/* Atmosphere: a coloured rim on top of the terminator shading. */
+.mariana::before,
+.dilanov::before,
+.fredev::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: 50%;
+  box-shadow: inset 0 0 calc(var(--planet-size) * 0.07) var(--planet-rim);
+  pointer-events: none;
+}
+
+.mariana .surface,
+.dilanov .surface,
+.fredev .surface {
+  --p: var(--planet-size);
+
   inset: -12% -12% -12% auto;
   width: 900%;
 }
 
-.games .surface {
-  --p: var(--planet-size);
+/* Mariana: a soft gaseous nebula of pink, magenta and deep violet with turquoise currents. */
+.mariana {
+  --planet-glow: rgb(255 90 150 / 0.5);
+  --planet-rim: rgb(255 160 200 / 0.55);
 
-  background: repeating-linear-gradient(
-    118deg,
-    var(--gold) 0 calc(var(--p) * 0.117),
-    var(--orange) calc(var(--p) * 0.117) calc(var(--p) * 0.268),
-    var(--ember) calc(var(--p) * 0.268) calc(var(--p) * 0.402),
-    var(--electric) calc(var(--p) * 0.402) calc(var(--p) * 0.52),
-    var(--orange) calc(var(--p) * 0.52) calc(var(--p) * 0.637)
-  );
-  filter: url('#nf-marble-sm');
+  background: #6a1a55;
 }
 
-.web {
-  --planet-glow: rgb(183 121 228 / 0.7);
-
-  background: radial-gradient(
-    circle at 35% 30%,
-    var(--lavender),
-    var(--electric) 55%,
-    var(--nebula)
-  );
-}
-
-.web .surface {
-  inset: 0;
-  border-radius: 50%;
+/* Gas has no hard glint: a soft pink sheen instead of the shared cream highlight. */
+.mariana::after {
   background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 calc(var(--planet-size) / 7.5),
-      rgb(253 248 242 / 0.28) calc(var(--planet-size) / 7.5) calc(var(--planet-size) / 7.5 + 1px)
-    ),
-    radial-gradient(
-      ellipse 22% 50% at 50% 50%,
-      transparent 96%,
-      rgb(253 248 242 / 0.28) 97%,
-      transparent 100%
-    ),
-    radial-gradient(
-      ellipse 46% 50% at 50% 50%,
-      transparent 97%,
-      rgb(253 248 242 / 0.2) 98%,
-      transparent 100%
-    );
+    radial-gradient(circle at 30% 26%, rgb(255 205 228 / 0.3), transparent 26%),
+    radial-gradient(circle at 34% 30%, transparent 48%, rgb(23 4 32 / 0.78) 86%);
 }
 
-.software {
-  --planet-glow: rgb(255 188 112 / 0.6);
-
-  background: var(--orange);
-}
-
-.software .surface {
-  --p: var(--planet-size);
-
-  background: repeating-linear-gradient(
-    172deg,
-    var(--gold) 0 calc(var(--p) * 0.126),
-    #f7a35e calc(var(--p) * 0.126) calc(var(--p) * 0.196),
-    var(--orange) calc(var(--p) * 0.196) calc(var(--p) * 0.308),
-    #e0743f calc(var(--p) * 0.308) calc(var(--p) * 0.35),
-    var(--gold) calc(var(--p) * 0.35) calc(var(--p) * 0.462)
-  );
-  filter: url('#nf-bands-sm');
+.mariana::before {
+  background: none;
 }
 
 /*
- * The web planet is a wireframe globe: fixed parallels plus meridians that sweep around it.
- * Each <i> is a great circle through the poles; only its near half is drawn, as a half ellipse
- * as wide as sin(longitude), on the side the longitude faces.
+ * A vector illustration (npm run planets): banded gas curling into two vortices, with turquoise
+ * streams. No filters, so it stays crisp. The axis is tilted, so the bands run diagonally and
+ * the planet turns along them; the tilt pivots on the visible disc.
  */
-.web .surface i {
-  display: none;
+.mariana .surface {
+  background: url('../../assets/planets/mariana-surface.svg') 0 0 / calc(var(--p) * 3.2) 100%
+    repeat-x;
+  transform-origin: calc(100% - var(--planet-size) * 0.62) 50%;
+  rotate: -24deg;
 }
 
-@supports (width: calc(1px * sin(1deg))) {
-  .web .surface {
-    background: repeating-linear-gradient(
-      0deg,
-      transparent 0 calc(var(--planet-size) / 7.5),
-      rgb(253 248 242 / 0.28) calc(var(--planet-size) / 7.5) calc(var(--planet-size) / 7.5 + 1px)
-    );
-  }
+/* DilanOv: deep violet clouds around a current of green energy, with mint filaments. */
+.dilanov {
+  --planet-glow: rgb(90 230 150 / 0.45);
+  --planet-rim: rgb(110 255 170 / 0.5);
 
-  .web .surface i {
-    --lon: calc(var(--spin) + 15deg + var(--i) * 30deg);
-
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    display: block;
-    width: calc(50% * max(sin(var(--lon)), -1 * sin(var(--lon))));
-    border-right: 1px solid rgb(253 248 242 / 0.24);
-    border-radius: 0 100% 100% 0 / 0 50% 50% 0;
-    transform-origin: left center;
-    scale: clamp(-1, tan(var(--lon)) * 1000, 1) 1;
-  }
+  background: #2a0a40;
 }
 
-@property --spin {
+/* A faint lilac sheen instead of the shared cream glint, which greys out on dark violet. */
+.dilanov::after {
+  background:
+    radial-gradient(circle at 30% 26%, rgb(226 210 255 / 0.26), transparent 26%),
+    radial-gradient(circle at 34% 30%, transparent 48%, rgb(23 4 32 / 0.78) 86%);
+}
+
+/*
+ * A vector illustration (npm run planets), like Mariana's, with the axis tilted the other way:
+ * the green current runs from the upper left down to the lower right.
+ */
+.dilanov .surface {
+  background: url('../../assets/planets/dilanov-surface.svg') 0 0 / calc(var(--p) * 3.2) 100%
+    repeat-x;
+  transform-origin: calc(100% - var(--planet-size) * 0.62) 50%;
+  rotate: 26deg;
+}
+
+/* FreDev: a warm gas giant with a great storm, a mauve shadow side and a designed touch. */
+.fredev {
+  --planet-glow: rgb(255 170 90 / 0.6);
+  --planet-rim: rgb(160 100 220 / 0.5);
+
+  background: #f7a35e;
+}
+
+.fredev::before {
+  box-shadow: inset calc(var(--planet-size) * -0.07) calc(var(--planet-size) * -0.08)
+    calc(var(--planet-size) * 0.1) var(--planet-rim);
+}
+
+/* A vector illustration (npm run planets), its axis tipped a little like the reference. */
+.fredev .surface {
+  background: url('../../assets/planets/fredev-surface.svg') 0 0 / calc(var(--p) * 3.2) 100%
+    repeat-x;
+  transform-origin: calc(100% - var(--planet-size) * 0.62) 50%;
+  rotate: -10deg;
+}
+
+/* A member planet with company: the satellites are laid out in % of the planet. */
+.system {
+  position: relative;
+  display: block;
+  width: var(--planet-size);
+  aspect-ratio: 1;
+}
+
+.system > .planet {
+  z-index: 1;
+}
+
+.system > * {
+  pointer-events: none;
+}
+
+/* FreDev's two orbits, one per moon: fine lines whose near half passes in front of the planet. */
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 124%;
+  height: 52%;
+  border: 1px solid rgb(255 214 170 / 0.45);
+  border-radius: 50%;
+  translate: -50% -50%;
+  rotate: 26deg;
+}
+
+.orbitOuter {
+  width: 144%;
+  height: 60%;
+  border-color: rgb(255 190 170 / 0.32);
+  rotate: 16deg;
+}
+
+/* A single marker on the outer orbit: a small, precise accent. */
+.orbitOuter::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffe3c8;
+  box-shadow: 0 0 6px rgb(255 214 170 / 0.8);
+  translate: -50% 0;
+}
+
+.orbitFront {
+  z-index: 2;
+  clip-path: inset(50% 0 0 0);
+}
+
+/*
+ * Moons travel their orbits: --t is a moon's angle on its ellipse (semi-axes --ra and --rb, in
+ * planet sizes, turned by --tilt like the orbit lines). On the near half a moon passes in front of
+ * the planet, a little larger; on the far half, behind it. --moon-angle drives both moons, the dog
+ * at twice the pace. Their surfaces are vector illustrations too (npm run planets).
+ */
+@property --moon-angle {
   syntax: '<angle>';
   inherits: true;
   initial-value: 0deg;
 }
 
+.moon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: clamp(0, calc(1 + sin(var(--t)) * 100), 3);
+  width: var(--moon-size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  isolation: isolate;
+  translate: calc(
+      -50% + var(--planet-size) *
+        (
+          var(--ra) * cos(var(--t)) * cos(var(--tilt)) - var(--rb) * sin(var(--t)) *
+            sin(var(--tilt))
+        )
+    )
+    calc(
+      -50% + var(--planet-size) *
+        (
+          var(--ra) * cos(var(--t)) * sin(var(--tilt)) + var(--rb) * sin(var(--t)) *
+            cos(var(--tilt))
+        )
+    );
+  scale: calc(1 + sin(var(--t)) * 0.08);
+}
+
+/*
+ * Each moon turns on its axis too: its surface is a strip three tiles wide (the tiles wrap
+ * seamlessly) sliding under the shading, which stays put on top.
+ */
+.moon::before,
+.moon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.moon::before {
+  right: auto;
+  width: 300%;
+  background: var(--moon-color) 0 0 / auto 100% repeat-x;
+  translate: calc(-100% / 3 * 2) 0;
+}
+
+.moon::after {
+  border-radius: 50%;
+}
+
+/* The dog: small white porcelain with marble veins, on the inner orbit. */
+.moonDog {
+  --moon-size: 18%;
+  --ra: 0.62;
+  --rb: 0.26;
+  --tilt: 26deg;
+  --t: calc(var(--moon-angle) * 2 + 200deg);
+
+  --moon-color: #fffdf9;
+
+  box-shadow: 0 0 calc(var(--planet-size) * 0.1) rgb(255 255 255 / 0.4);
+}
+
+.moonDog::before {
+  background-image: url('../../assets/planets/fredev-dog-moon.svg');
+}
+
+.moonDog::after {
+  background:
+    radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.7), transparent 30%),
+    radial-gradient(circle at 36% 32%, transparent 46%, rgb(70 50 100 / 0.42) 100%);
+}
+
+/* The partner: larger, in deep, bright and pale blues, full of swirls, on the outer orbit. */
+.moonPartner {
+  --moon-size: 30%;
+  --ra: 0.72;
+  --rb: 0.3;
+  --tilt: 16deg;
+  --t: calc(var(--moon-angle) + 10deg);
+
+  --moon-color: #4a8fe8;
+
+  box-shadow: 0 0 calc(var(--planet-size) * 0.12) rgb(110 170 255 / 0.55);
+}
+
+.moonPartner::before {
+  background-image: url('../../assets/planets/fredev-partner-moon.svg');
+}
+
+.moonPartner::after {
+  background:
+    radial-gradient(circle at 32% 28%, rgb(235 245 255 / 0.4), transparent 28%),
+    radial-gradient(circle at 36% 32%, transparent 44%, rgb(20 20 80 / 0.55) 100%);
+}
+
+/*
+ * AigenDev's world: four layers of one pixel-art sprite (npm run planets), each 96 × 72 pixels
+ * around a planet 48 pixels across, so the planet itself sits where the other planets do.
+ */
+.pixelLayer {
+  position: absolute;
+  top: -25%;
+  left: -50%;
+  width: 200%;
+  height: 150%;
+  background: url('../../assets/planets/aigen-sprite.png') 0 var(--row) / 100% 400% no-repeat;
+  image-rendering: pixelated;
+}
+
+.pixelOrbitBack {
+  --row: 0%;
+
+  z-index: 0;
+}
+
+.pixelFloat {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.pixelBody {
+  --row: 33.333%;
+}
+
+.pixelGlow {
+  --row: 66.667%;
+}
+
+.pixelOrbitFront {
+  --row: 100%;
+
+  z-index: 2;
+}
+
+/* Loose pixels, in the planet's colours; sizes and drifts are in pixels of the sprite. */
+.speck {
+  --px: calc(var(--planet-size) / 48);
+
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  z-index: 3;
+  width: calc(var(--px) * var(--s));
+  aspect-ratio: 1;
+  background: var(--fill);
+}
+
+.ice {
+  --fill: #8eeaf2;
+}
+
+.ember {
+  --fill: #ffb02e;
+}
+
+.rose {
+  --fill: #e040a0;
+}
+
+.moss {
+  --fill: #7fca46;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pixelFloat {
+    animation: pixel-float 6s ease-in-out infinite;
+  }
+
+  .pixelGlow {
+    animation: lava-breathe 2.6s ease-in-out infinite;
+  }
+
+  .pixelOrbitBack,
+  .pixelOrbitFront {
+    animation: orbit-sway 9s ease-in-out infinite;
+  }
+
+  .speck {
+    animation: speck-drift var(--time) ease-in-out var(--delay) infinite;
+  }
+}
+
+@keyframes pixel-float {
+  50% {
+    translate: 0 calc(var(--planet-size) / 48 * -1.5);
+  }
+}
+
+@keyframes lava-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes orbit-sway {
+  50% {
+    translate: calc(var(--planet-size) / 48) calc(var(--planet-size) / 48);
+  }
+}
+
+@keyframes speck-drift {
+  50% {
+    translate: calc(var(--px) * var(--dx)) calc(var(--px) * var(--dy));
+  }
+}
+
 /* Scroll-linked spin. Browsers without scroll timelines simply keep the planets still. */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
-    .games .surface,
-    .software .surface {
+    .mariana .surface,
+    .dilanov .surface,
+    .fredev .surface {
       animation: planet-roll linear both;
-      animation-timeline: scroll(root block);
-    }
-
-    .web .surface {
-      animation: planet-turn linear both;
       animation-timeline: scroll(root block);
     }
   }
@@ -176,27 +441,17 @@
   }
 }
 
-@keyframes planet-turn {
-  to {
-    --spin: 360deg;
-  }
-}
-
-.large.games .surface {
-  filter: url('#nf-marble-lg');
-}
-
-.large.software .surface {
-  filter: url('#nf-bands-lg');
-}
-
-/* Close-up scene: a square stage holding the planet and its ring, grid orbit or moons. */
+/*
+ * Close-up scene: a square stage holding the planet, with its light behind it. It is a size
+ * container, so the planet can be sized in cqi and lay itself out in plain lengths.
+ */
 .scene {
   position: relative;
   display: grid;
   place-items: center;
   width: 100%;
   aspect-ratio: 1;
+  container-type: inline-size;
 }
 
 .scene::before {
@@ -212,97 +467,220 @@
   filter: blur(40px);
 }
 
-.scene[data-kind='web'] {
-  --scene-light: var(--lavender);
+.scene[data-kind='aigen'] {
+  --scene-light: #ff8a3d;
 }
 
-.scene[data-kind='software'] {
+.scene[data-kind='fredev'] {
   --scene-light: var(--gold);
 }
 
-.scene > .planet {
-  z-index: 1;
+/* The couple's light is theirs: pink on one side, green on the other. */
+.scene[data-kind='couple']::before {
+  background:
+    radial-gradient(circle at 34% 50%, rgb(255 110 170 / 0.4), transparent 55%),
+    radial-gradient(circle at 66% 50%, rgb(90 240 160 / 0.32), transparent 55%);
 }
 
-.ring {
+/*
+ * Mariana and DilanOv's pair: two planets on one tilted orbit, opposite each other, circling as
+ * the page scrolls. --pair-angle places Mariana; DilanOv is half a turn away. The nearer one is
+ * a little larger and passes in front.
+ */
+@property --pair-angle {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 25deg;
+}
+
+.couple {
+  --partner-size: calc(var(--planet-size) * 0.58);
+  --pair-rx: calc(var(--planet-size) * 0.3);
+  --pair-ry: calc(var(--planet-size) * 0.11);
+
+  position: relative;
+  display: block;
+  width: var(--planet-size);
+  aspect-ratio: 1;
+}
+
+.couple > * {
+  pointer-events: none;
+}
+
+/* A soft light between them, pink towards Mariana and green towards DilanOv. */
+.coupleLight {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 50%, rgb(255 120 180 / 0.28), transparent 52%),
+    radial-gradient(circle at 64% 50%, rgb(100 240 170 / 0.22), transparent 52%);
+}
+
+/* The orbit they share, tilted like their path (-14°). */
+.coupleOrbit {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 132%;
-  height: 30%;
-  border: 2px solid rgb(255 188 112 / 0.75);
+  width: calc(var(--pair-rx) * 2);
+  height: calc(var(--pair-ry) * 2);
+  border: 1px dashed rgb(255 214 236 / 0.3);
   border-radius: 50%;
-  box-shadow:
-    0 0 22px rgb(242 140 82 / 0.45),
-    inset 0 0 18px rgb(242 140 82 / 0.3);
-  pointer-events: none;
   translate: -50% -50%;
-  rotate: -16deg;
+  rotate: -14deg;
 }
 
-.ringBack {
-  z-index: 0;
-}
+.partner {
+  --a: var(--pair-angle);
 
-/* Only the near half of the ring passes in front of the planet. */
-.ringFront {
-  z-index: 2;
-  clip-path: inset(50% 0 0 0);
-}
-
-.gridOrbit {
-  position: absolute;
-  inset: 2%;
-  border: 1px solid rgb(183 121 228 / 0.28);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.gridOrbit::before {
-  content: '';
   position: absolute;
   top: 50%;
-  left: -5px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--lavender);
-  box-shadow: 0 0 14px var(--lavender);
+  left: 50%;
+  /* The point at --a on the ellipse, turned by -14°. */
+  translate: calc(
+      -50% + var(--pair-rx) * cos(var(--a)) * 0.97 + var(--pair-ry) * sin(var(--a)) * 0.242
+    )
+    calc(-50% - var(--pair-rx) * cos(var(--a)) * 0.242 + var(--pair-ry) * sin(var(--a)) * 0.97);
+  scale: calc(1 + sin(var(--a)) * 0.08);
+  /* Rounds to 2 on the near half of the orbit and to 1 on the far half. */
+  z-index: calc(1.5 + sin(var(--a)));
 }
 
-.moons {
+.partnerDilanov {
+  --a: calc(var(--pair-angle) + 180deg);
+}
+
+/* A small four-point sparkle on each planet's lit shoulder. */
+.partner::after {
+  content: '';
   position: absolute;
-  inset: 4%;
-  z-index: 2;
-  border: 1px dashed rgb(255 188 112 / 0.3);
-  border-radius: 50%;
-  pointer-events: none;
-  animation: spin 90s linear infinite;
-}
-
-.moons i {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--cream), var(--gold) 45%, #b9622e);
-  box-shadow: 0 0 14px rgb(255 188 112 / 0.6);
-}
-
-.moons i:nth-child(1) {
   top: 6%;
+  left: 14%;
+  z-index: 5;
+  width: calc(var(--partner-size) * 0.16);
+  aspect-ratio: 1;
+  background: #fff;
+  filter: drop-shadow(0 0 calc(var(--partner-size) * 0.04) rgb(255 255 255 / 0.9));
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+}
+
+.partnerDilanov::after {
+  top: 10%;
   left: 18%;
-  width: 22px;
-  height: 22px;
+  width: calc(var(--partner-size) * 0.12);
 }
 
-.moons i:nth-child(2) {
-  right: 6%;
-  bottom: 14%;
-  width: 12px;
-  height: 12px;
+/* A brighter halo for the pair, two layers deep, in each planet's own colour. */
+.glowing {
+  box-shadow:
+    0 0 calc(var(--planet-size) * 0.35) calc(var(--planet-size) * 0.02) var(--planet-glow),
+    0 0 calc(var(--planet-size) * 0.9) calc(var(--planet-size) * 0.1) var(--planet-halo);
 }
 
-@keyframes spin {
+.mariana.glowing {
+  --planet-glow: rgb(255 110 170 / 0.6);
+  --planet-halo: rgb(255 110 170 / 0.22);
+}
+
+.dilanov.glowing {
+  --planet-glow: rgb(100 240 170 / 0.55);
+  --planet-halo: rgb(100 240 170 / 0.2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .partner::after {
+    animation: twinkle 3.2s ease-in-out infinite;
+  }
+
+  .partnerDilanov::after {
+    animation-delay: -1.6s;
+  }
+
+  /* One turn while the pair crosses the screen; the moons, likewise. */
+  @supports (animation-timeline: view()) {
+    .couple {
+      animation: pair-orbit linear both;
+      animation-timeline: view();
+    }
+
+    /* One timeline for FreDev's system, shared by the orbits and the spin of its moons. */
+    .fredevSystem {
+      view-timeline-name: --fredev-moons;
+      animation: moon-orbit linear both;
+      animation-timeline: --fredev-moons;
+    }
+
+    .moon::before {
+      animation: moon-spin linear both;
+      animation-timeline: --fredev-moons;
+    }
+  }
+
+  /*
+   * In `auto` motion everything turns on its own instead, at a calm pace. The shorthand also
+   * resets the scroll timelines above, which come earlier in the file.
+   */
+  .auto .surface {
+    animation: planet-spin 36s linear infinite;
+  }
+
+  .couple.auto {
+    animation: pair-orbit 16s linear infinite;
+  }
+
+  .fredevSystem.auto {
+    animation: moon-orbit 28s linear infinite;
+  }
+
+  .auto .moon::before {
+    animation: moon-spin 18s linear infinite;
+  }
+
+  .auto .moonDog::before {
+    animation-duration: 12s;
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+    scale: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes pair-orbit {
+  from {
+    --pair-angle: 25deg;
+  }
+
   to {
-    rotate: 360deg;
+    --pair-angle: 385deg;
+  }
+}
+
+/* Two turns of the moon: two tiles of its strip. */
+@keyframes moon-spin {
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes moon-orbit {
+  to {
+    --moon-angle: 360deg;
+  }
+}
+
+/* One tile of the surface strip (3.2 planet sizes), so the loop is seamless. */
+@keyframes planet-spin {
+  to {
+    transform: translateX(calc(var(--planet-size) * 3.2));
   }
 }

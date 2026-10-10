@@ -1,12 +1,12 @@
 # Needy Friends
 
-Web de **Needy Friends**, un estudio creativo independiente de tres personas que hace videojuegos, sitios web y herramientas digitales. Presenta los proyectos del estudio por áreas, con capturas reales, detalles y tecnologías, en español e inglés.
+Web de **Needy Friends**, un estudio creativo independiente de cuatro personas que hace videojuegos, sitios web y herramientas digitales. Presenta los proyectos del estudio por áreas, con capturas reales, detalles y tecnologías, en español e inglés.
 
 **Sitio público:** https://needyfriends.pages.dev (proyecto de Cloudflare Pages `needyfriends`).
 
 ## Dirección visual
 
-Universo cósmico y juguetón: el logo es la estrella del hero y cada área (videojuegos, webs, herramientas) es un planeta que lo orbita. Los planetas giran sobre su eje al hacer scroll (animación CSS ligada al scroll; quietos con movimiento reducido o en navegadores sin `animation-timeline`), y el header se esconde al bajar y vuelve al subir. Morados profundos como atmósfera, naranja para luz y acciones, lavanda para lo interactivo y crema para el texto. Tipografías Unbounded (titulares) y Figtree (texto). Toda la decoración es programática (CSS, SVG y canvas); las imágenes son capturas reales de los proyectos.
+Universo cósmico y juguetón: el logo es la estrella del hero y cada área orbita a su alrededor con planetas del equipo: el de AigenDev para videojuegos, el de FreDev para webs y los de Mariana y DilanOv, que son pareja, para herramientas (`AREA_PLANETS` en `src/data/site.ts`); los mismos planetas, en grande, abren cada área. En el hero y en el equipo todo gira solo: los planetas gaseosos sobre su eje, las lunas de FreDev sobre su eje y en sus órbitas y la pareja, un sistema binario con su propio brillo, uno alrededor del otro; en las áreas, lo mismo avanza con el scroll (`motion` en `Planet`; animación CSS ligada al scroll, quieta en navegadores sin `animation-timeline`). Todo queda quieto con movimiento reducido. En el equipo, una estela de rosa a verde une a Mariana y DilanOv. El header se esconde al bajar y vuelve al subir. Morados profundos como atmósfera, naranja para luz y acciones, lavanda para lo interactivo y crema para el texto. Tipografías Unbounded (titulares) y Figtree (texto). Toda la decoración es programática (CSS, SVG y canvas); las imágenes son capturas reales de los proyectos.
 
 El logo actual es **provisional**: un recorte del arte original (`src/assets/brand/needyfriends-logo.webp`).
 
@@ -63,7 +63,9 @@ Un juego publicado se muestra como «Jugable» y su enlace como «Jugar».
 
 ## Equipo
 
-`src/data/team.ts` lista a los tres integrantes (Mariana, DilanOv y FreDe), cada uno con su planeta, nombre y rol, sin enlaces. Son los nombres con los que aparecen en la web, no necesariamente los reales. No inventar nombres, cargos ni biografías.
+`src/data/team.ts` lista a los cuatro integrantes (Mariana, DilanOv, FreDev y AigenDev), cada uno con su planeta, nombre y rol, sin enlaces. Son los nombres con los que aparecen en la web, no necesariamente los reales. No inventar nombres, cargos ni biografías.
+
+Cada integrante tiene un planeta propio (`src/components/cosmos/Planet.tsx` y `Planet.module.css`), diseñado a partir de la imagen de referencia que eligió: Mariana, una nebulosa ilustrada de bandas rosa, magenta y morado que se enroscan en dos remolinos, con corrientes cian; DilanOv, nubes violeta profundo alrededor de una corriente de energía verde con filamentos menta y remolinos; FreDev, un gigante gaseoso cálido con una gran tormenta, filamentos finos y una hilera de puntos como toque «diseñado», y dos lunas en sus órbitas (la pequeña, de porcelana blanca con vetas de mármol, es su perro; la grande, azul con remolinos, su pareja), que recorren sus órbitas, y AigenDev, un sprite en pixel art compuesto a partir de su referencia: regiones de materiales que chocan (cristal cian, roca cálida, magenta, violeta, púrpura y pequeñas zonas azules), una gran falla de lava con sus ramas, un remolino verde con brazo violeta y otro magenta, fragmentos que se desprenden, píxeles sueltos y una órbita rota. No gira: flota, la órbita se mece, la lava respira y los píxeles se mueven un poco. Las texturas de los planetas gaseosos y las lunas son SVG vectoriales, sin filtros, para que se vean nítidas (`scripts/generate-planet-textures.mjs`); el sprite de AigenDev es un PNG de cuatro capas (`scripts/generate-pixel-planet.mjs`). Todo se genera con `npm run planets` en `src/assets/planets/`.
 
 ## Estructura
 

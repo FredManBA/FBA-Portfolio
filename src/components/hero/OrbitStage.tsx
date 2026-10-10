@@ -1,5 +1,5 @@
 import { useEffect, useRef, type CSSProperties } from 'react';
-import { AREA_ORDER, SECTION_IDS } from '../../data/site';
+import { AREA_ORDER, AREA_PLANETS, SECTION_IDS } from '../../data/site';
 import { useLanguage } from '../../hooks/useLanguage';
 import { REDUCED_MOTION_QUERY } from '../../hooks/useMediaQuery';
 import type { ProjectCategory } from '../../types';
@@ -29,7 +29,7 @@ const ORBITS: Record<ProjectCategory, Orbit> = {
     tilt: -9,
     period: 96,
     angle: 196,
-    planetSize: 58,
+    planetSize: 64,
   },
   web: {
     rx: 0.415,
@@ -38,7 +38,7 @@ const ORBITS: Record<ProjectCategory, Orbit> = {
     tilt: 5,
     period: 128,
     angle: 338,
-    planetSize: 66,
+    planetSize: 60,
   },
   software: {
     rx: 0.485,
@@ -47,7 +47,7 @@ const ORBITS: Record<ProjectCategory, Orbit> = {
     tilt: -4,
     period: 164,
     angle: 104,
-    planetSize: 50,
+    planetSize: 84,
   },
 };
 
@@ -92,8 +92,8 @@ function arcPath(g: Geometry, from: number, to: number): string {
 }
 
 /**
- * The hero centrepiece: the logo is the star and each studio area orbits it as a planet that
- * links to its section. The near half of every orbit is drawn over the logo, so planets pass
+ * The hero centrepiece: the logo is the star and each studio area orbits it as its members'
+ * planet, linking to its section. The near half of every orbit is drawn over the logo, so planets pass
  * in front of it and behind it. Motion is ambient (minutes per revolution), pauses while a
  * planet is hovered or focused, stops off screen and is static with reduced motion.
  */
@@ -254,7 +254,11 @@ export function OrbitStage() {
           className={styles.orbiter}
           style={{ '--orbiter-size': `${ORBITS[area].planetSize}px` } as CSSProperties}
         >
-          <Planet kind={area} size={`${ORBITS[area].planetSize}px`} className={styles.planet} />
+          <Planet
+            kind={AREA_PLANETS[area]}
+            size={`${ORBITS[area].planetSize}px`}
+            className={styles.planet}
+          />
           <span className={styles.tag}>{t.nav[area]}</span>
         </a>
       ))}

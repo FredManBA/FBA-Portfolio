@@ -6,6 +6,12 @@ export type Localized<T = string> = Record<Language, T>;
 
 export type ProjectCategory = 'games' | 'web' | 'software';
 
+/** Each team member has a planet of their own, designed from the reference they chose. */
+export type MemberPlanet = 'mariana' | 'dilanov' | 'fredev' | 'aigen';
+
+/** A member's planet, or Mariana and DilanOv's pair (`couple`), which stands for an area. */
+export type PlanetKind = MemberPlanet | 'couple';
+
 /** `in-use` is for private tools already working for someone, with nothing public to open. */
 export type ProjectStatus = 'live' | 'development' | 'in-use';
 

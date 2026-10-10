@@ -24,8 +24,8 @@ test('loads every section and screenshot without errors or horizontal overflow',
 
   await expect(page.getByRole('heading', { level: 1, name: 'Needy Friends' })).toBeVisible();
   for (const name of [
-    'Tres mundos, un mismo estudio',
-    'Somos tres',
+    'Un universo, cuatro amigos',
+    'Somos cuatro',
     '¿Tienes una idea que necesita amigos?',
   ]) {
     await expect(page.getByRole('heading', { level: 2, name })).toBeAttached();

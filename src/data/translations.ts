@@ -25,13 +25,13 @@ const es = {
   hero: {
     statement: 'Creamos videojuegos, webs y herramientas digitales.',
     intro:
-      'Somos un estudio independiente de tres personas. Diseñamos y desarrollamos cada proyecto de principio a fin, cuidando tanto la experiencia como el código.',
+      'Somos un estudio independiente de cuatro personas. Diseñamos y desarrollamos cada proyecto de principio a fin, cuidando tanto la experiencia como el código.',
     primaryAction: 'Ver proyectos',
     secondaryAction: 'Conocer al equipo',
     scrollCue: 'Bajar al contenido',
   },
   worlds: {
-    title: 'Tres mundos, un mismo estudio',
+    title: 'Un universo, cuatro amigos',
     intro:
       'Cada área tiene su propio carácter, pero todas comparten la misma forma de trabajar: atención al detalle y productos que dan gusto usar.',
     filterLabel: 'Mostrar áreas',
@@ -88,9 +88,9 @@ const es = {
     play: 'Jugar ahora',
   },
   team: {
-    title: 'Somos tres',
+    title: 'Somos cuatro',
     intro:
-      'Un equipo pequeño en el que los tres participamos en cada proyecto, del diseño al código.',
+      'Un equipo pequeño en el que los cuatro participamos en cada proyecto, del diseño al código.',
   },
   contact: {
     title: '¿Tienes una idea que necesita amigos?',
@@ -152,13 +152,13 @@ const en: Translation = {
   hero: {
     statement: 'We make games, websites and digital tools.',
     intro:
-      "We're an independent studio of three. We design and build every project end to end, caring as much about the experience as about the code.",
+      "We're an independent studio of four. We design and build every project end to end, caring as much about the experience as about the code.",
     primaryAction: 'See projects',
     secondaryAction: 'Meet the team',
     scrollCue: 'Scroll to the content',
   },
   worlds: {
-    title: 'Three worlds, one studio',
+    title: 'One universe, four friends',
     intro:
       'Each area has its own character, but they all share the same way of working: attention to detail and products that are a pleasure to use.',
     filterLabel: 'Show areas',
@@ -214,8 +214,8 @@ const en: Translation = {
     play: 'Play now',
   },
   team: {
-    title: 'There are three of us',
-    intro: 'A small team where all three of us work on every project, from design to code.',
+    title: 'There are four of us',
+    intro: 'A small team where all four of us work on every project, from design to code.',
   },
   contact: {
     title: 'Got an idea that needs some friends?',

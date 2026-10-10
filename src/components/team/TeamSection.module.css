@@ -34,7 +34,7 @@
 .list {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(16px, 3vw, 40px);
 }
 
@@ -52,6 +52,48 @@
   stroke: rgb(183 121 228 / 0.35);
   stroke-dasharray: 3 7;
   stroke-width: 1.2;
+}
+
+/* The couple's trail: a soft glow under a pink-to-green line, and a spark that travels it. */
+.constellation .bondGlow,
+.constellation .bond {
+  stroke: url('#team-bond');
+  stroke-dasharray: none;
+  stroke-linecap: round;
+}
+
+.constellation .bondGlow {
+  stroke-width: 9;
+  opacity: 0.28;
+}
+
+.constellation .bond {
+  stroke-width: 2.4;
+}
+
+.constellation .bondSpark {
+  stroke: #fff;
+  stroke-dasharray: 4 96;
+  stroke-linecap: round;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 4px #fff);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .constellation .bondSpark {
+    animation: bond-travel 4.5s ease-in-out infinite alternate;
+  }
+}
+
+/* The spark sets off from under Mariana's planet and arrives under DilanOv's. */
+@keyframes bond-travel {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -96;
+  }
 }
 
 .member {
@@ -98,10 +140,25 @@
     display: none;
   }
 
+  /* Stacked, the couple are joined by a vertical trail from one planet to the next. */
+  .member[data-bond]::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: calc(8px + var(--member-size) / 2 - 1.5px);
+    width: 3px;
+    height: calc(100% + 24px);
+    border-radius: 2px;
+    background: linear-gradient(#ff6fae, #5ff0a0);
+    box-shadow:
+      0 0 10px rgb(255 111 174 / 0.5),
+      0 0 14px rgb(95 240 160 / 0.35);
+  }
+
   .member {
     grid-template-rows: 1fr auto auto 1fr;
     grid-template-columns: auto minmax(0, 1fr);
-    column-gap: 18px;
+    column-gap: 28px;
     row-gap: 2px;
     align-items: center;
     justify-items: start;

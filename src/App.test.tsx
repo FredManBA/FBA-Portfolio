@@ -27,15 +27,15 @@ describe('brand', () => {
     }
   });
 
-  it('introduces the three members by name, without links', () => {
+  it('introduces the four members by name, without links', () => {
     render(<App />);
 
-    const team = screen.getByRole('region', { name: 'Somos tres' });
+    const team = screen.getByRole('region', { name: 'Somos cuatro' });
     expect(
       within(team)
         .getAllByRole('heading', { level: 3 })
         .map((heading) => heading.textContent),
-    ).toEqual(['Mariana', 'DilanOv', 'FreDe']);
+    ).toEqual(['Mariana', 'DilanOv', 'FreDev', 'AigenDev']);
     expect(within(team).queryByRole('link')).not.toBeInTheDocument();
   });
 });

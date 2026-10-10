@@ -20,6 +20,7 @@
     "test:e2e": "playwright test",
     "images": "node scripts/optimize-screenshots.mjs",
     "brand": "node scripts/generate-brand-assets.mjs",
+    "planets": "node scripts/generate-planet-textures.mjs && node scripts/generate-pixel-planet.mjs",
     "deploy": "npm run build && wrangler pages deploy dist --project-name needyfriends --branch main"
   },
   "dependencies": {
