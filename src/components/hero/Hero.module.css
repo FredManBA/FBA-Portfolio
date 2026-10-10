@@ -62,6 +62,84 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.95 0 0 0 0 0.9 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Mobile and tablet keep the stage and copy together; see the desktop block below. */
+.stageArea {
+  position: relative;
+}
+
+.scrollCue {
+  display: none;
+}
+
+@media (min-width: 961px) {
+  /*
+   * The first screen is the logo and its orbits alone, centred in the space under the header.
+   * The stage scales with the window height so it always fits; the copy starts below the fold.
+   */
+  .stageArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - var(--header-height) - clamp(4px, 2vw, 20px));
+    min-height: calc(100svh - var(--header-height) - clamp(4px, 2vw, 20px));
+    padding-bottom: 72px;
+  }
+
+  /* Tall windows let the stage grow past the text column; it stays centred (the hero clips). */
+  .stageArea > :first-child {
+    flex: none;
+    width: min(
+      1360px,
+      calc(100vw - 2 * var(--gutter) - 32px),
+      calc((100vh - var(--header-height) - 200px) * 2.2)
+    );
+    width: min(
+      1360px,
+      calc(100vw - 2 * var(--gutter) - 32px),
+      calc((100svh - var(--header-height) - 200px) * 2.2)
+    );
+    margin: 0;
+  }
+
+  .scrollCue {
+    position: absolute;
+    bottom: clamp(12px, 3vh, 28px);
+    left: 50%;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 50%;
+    background: rgb(23 4 32 / 0.5);
+    color: var(--color-text-2);
+    translate: -50% 0;
+    animation: cue-bob 2.4s ease-in-out infinite;
+    transition:
+      color 0.2s var(--ease-out),
+      border-color 0.2s var(--ease-out);
+  }
+
+  .copy {
+    padding-top: clamp(24px, 4vh, 48px);
+  }
+}
+
+@media (min-width: 961px) and (hover: hover) {
+  .scrollCue:hover {
+    border-color: var(--orange);
+    color: var(--color-text);
+  }
+}
+
+@keyframes cue-bob {
+  50% {
+    transform: translateY(6px);
+  }
+}
+
 .copy {
   position: relative;
   z-index: 5;

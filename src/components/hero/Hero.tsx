@@ -1,3 +1,5 @@
+import { useReducedMotion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import { useRef } from 'react';
 import { SECTION_IDS } from '../../data/site';
 import { useHeroParallax } from '../../hooks/useHeroParallax';
@@ -10,7 +12,12 @@ import { OrbitStage } from './OrbitStage';
 export function Hero() {
   const { t } = useLanguage();
   const heroRef = useRef<HTMLElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
   useHeroParallax(heroRef);
+
+  const showCopy = () =>
+    copyRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
 
   return (
     <section
@@ -27,9 +34,20 @@ export function Hero() {
       <div className={styles.grain} aria-hidden="true" />
 
       <div className="container">
-        <OrbitStage />
+        {/* On desktop the logo and its orbits fill the first screen; the copy starts below it. */}
+        <div className={styles.stageArea}>
+          <OrbitStage />
+          <button
+            type="button"
+            className={styles.scrollCue}
+            onClick={showCopy}
+            aria-label={t.hero.scrollCue}
+          >
+            <ChevronDown size={22} aria-hidden="true" />
+          </button>
+        </div>
 
-        <div className={styles.copy}>
+        <div ref={copyRef} className={styles.copy}>
           <p className={styles.statement}>{t.hero.statement}</p>
           <div className={styles.side}>
             <p className={styles.intro}>{t.hero.intro}</p>

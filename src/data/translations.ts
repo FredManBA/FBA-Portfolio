@@ -28,6 +28,7 @@ const es = {
       'Somos un estudio independiente de tres personas. Diseñamos y desarrollamos cada proyecto de principio a fin, cuidando tanto la experiencia como el código.',
     primaryAction: 'Ver proyectos',
     secondaryAction: 'Conocer al equipo',
+    scrollCue: 'Bajar al contenido',
   },
   worlds: {
     title: 'Tres mundos, un mismo estudio',
@@ -154,6 +155,7 @@ const en: Translation = {
       "We're an independent studio of three. We design and build every project end to end, caring as much about the experience as about the code.",
     primaryAction: 'See projects',
     secondaryAction: 'Meet the team',
+    scrollCue: 'Scroll to the content',
   },
   worlds: {
     title: 'Three worlds, one studio',
