@@ -25,6 +25,8 @@ describe('studio areas', () => {
       'Tiny Kingdoms',
       'Phosphor',
       'retroM',
+      'Crop Critters Idle',
+      'Tornasol',
     ]);
     expect(projectNames(screen.getByRole('article', { name: 'Webs' }))).toEqual([
       'Costa Rica 360',
@@ -43,11 +45,11 @@ describe('studio areas', () => {
     renderWithProviders(<WorldsSection />);
 
     const filters = getFilters();
-    expect(filters.getByRole('button', { name: 'Todo, 10 proyectos' })).toHaveAttribute(
+    expect(filters.getByRole('button', { name: 'Todo, 12 proyectos' })).toHaveAttribute(
       'aria-pressed',
       'true',
     );
-    expect(filters.getByRole('button', { name: 'Videojuegos, 3 proyectos' })).toBeInTheDocument();
+    expect(filters.getByRole('button', { name: 'Videojuegos, 5 proyectos' })).toBeInTheDocument();
     expect(filters.getByRole('button', { name: 'Webs, 4 proyectos' })).toBeInTheDocument();
     expect(filters.getByRole('button', { name: 'Herramientas, 3 proyectos' })).toBeInTheDocument();
   });

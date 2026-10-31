@@ -35,7 +35,7 @@ test('loads every section and screenshot without errors or horizontal overflow',
   }
 
   const screenshots = page.locator('#universo img');
-  await expect(screenshots).toHaveCount(10);
+  await expect(screenshots).toHaveCount(12);
   for (const screenshot of await screenshots.all()) {
     await screenshot.scrollIntoViewIfNeeded();
     await expect
