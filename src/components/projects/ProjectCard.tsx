@@ -79,7 +79,6 @@ export function ProjectCard({ project, onOpen }: ProjectCardProps) {
             {project.name}
           </h4>
           <p className={styles.tagline}>{project.tagline[language]}</p>
-          <p className={styles.description}>{project.description[language]}</p>
 
           <ul role="list" className={styles.techs} aria-label={t.projects.technologies}>
             {project.cardTechnologies.slice(0, MAX_CARD_TECHNOLOGIES).map((id) => (
