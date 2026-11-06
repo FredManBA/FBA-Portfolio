@@ -13,7 +13,7 @@ import styles from './ProjectCard.module.css';
 import { ProjectImage } from './ProjectImage';
 import { ProjectLinks } from './ProjectLinks';
 
-const MAX_CARD_TECHNOLOGIES = 4;
+const MAX_CARD_TECHNOLOGIES = 2;
 const CARD_IMAGE_SIZES = '(min-width: 1200px) 490px, (min-width: 641px) 50vw, 100vw';
 
 const cardVariants: Variants = {
