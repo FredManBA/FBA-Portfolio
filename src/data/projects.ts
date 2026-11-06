@@ -1,4 +1,22 @@
-import type { Project } from '../types';
+import type { Project, ProjectScreenshot } from '../types';
+
+// Covers that also appear in their project's gallery.
+const TAB_TWINS_COMPARE: ProjectScreenshot = {
+  file: 'tab-twins-compare',
+  focus: 'top center',
+  alt: {
+    es: 'Tab Twins compara cuatro pestañas de la misma novela de prueba, de la ficha al capítulo 27, con su captura, el capítulo, la última visita y el porcentaje leído; la del capítulo 27 queda marcada como la más avanzada.',
+    en: 'Tab Twins compares four tabs of the same test novel, from its overview page to chapter 27, with their screenshot, chapter, last visit and percentage read; chapter 27 is marked as the furthest along.',
+  },
+};
+
+const DEEP_DIVE_WRECK: ProjectScreenshot = {
+  file: 'deep-dive-fishing-naufragio',
+  alt: {
+    es: 'Inmersión en Deep Dive Fishing: el arpón apunta a un naufragio partido en dos en el fondo arenoso, rodeado de peces, con los indicadores de oxígeno, carga y profundidad arriba.',
+    en: 'A dive in Deep Dive Fishing: the harpoon aims at a shipwreck broken in two on the sandy seabed, surrounded by fish, with the oxygen, load and depth gauges at the top.',
+  },
+};
 
 /**
  * Studio projects, grouped on the page by category (games, web, software) and sorted by `order`
@@ -642,5 +660,167 @@ export const PROJECTS: readonly Project[] = [
         en: 'A Tornasol game at sunset: the island with the shell, the sunflower and the glubs among bubbles, and the counter with the upgrades in the top left.',
       },
     },
+  },
+  {
+    id: 'tab-twins',
+    name: 'Tab Twins',
+    category: 'software',
+    status: 'live',
+    order: 4,
+    tagline: {
+      es: 'Extensión que encuentra pestañas duplicadas',
+      en: 'An extension that finds duplicate tabs',
+    },
+    description: {
+      es: 'Extensión de navegador que encuentra pestañas duplicadas, incluida la misma novela o serie abierta en capítulos distintos. Las compara lado a lado y te deja decidir cuáles cerrar: nunca cierra nada por su cuenta.',
+      en: 'A browser extension that finds duplicate tabs, including the same novel or series open at different chapters. It compares them side by side and lets you decide which ones to close: it never closes anything on its own.',
+    },
+    features: {
+      es: [
+        'Pestañas idénticas aunque cambien el fragmento o los parámetros de rastreo',
+        'La misma obra abierta en capítulos distintos',
+        'Comparación lado a lado con captura, capítulo y cuánto llevas leído',
+        'Elige cuál se conserva: la más avanzada, la más reciente o la primera',
+        'Los cierres en bloque piden confirmación y se pueden deshacer',
+        'Buscador de pestañas y contador de duplicadas en el icono',
+        'Navegadores Chromium y Firefox, también en Android',
+        'No recoge datos: todo se queda en el navegador',
+        'En español e inglés',
+      ],
+      en: [
+        'Identical tabs even when the fragment or tracking parameters change',
+        'The same work open at different chapters',
+        'Side-by-side comparison with a screenshot, the chapter and how much you have read',
+        'Choose which one stays: the furthest along, the most recent or the first',
+        'Bulk closing asks for confirmation and can be undone',
+        'Tab search and a duplicate counter on the icon',
+        'Chromium browsers and Firefox, Android included',
+        'Collects no data: everything stays in the browser',
+        'In Spanish and English',
+      ],
+    },
+    cardTechnologies: ['javascript', 'webextensions', 'chrome', 'firefox'],
+    technologies: ['javascript', 'webextensions', 'chrome', 'firefox'],
+    links: {
+      github: 'https://github.com/Aigen1111/tab-twins',
+    },
+    screenshot: TAB_TWINS_COMPARE,
+    gallery: [
+      TAB_TWINS_COMPARE,
+      {
+        file: 'tab-twins-manager',
+        focus: 'top center',
+        alt: {
+          es: 'El gestor de Tab Twins con tres grupos de pestañas de prueba duplicadas: dos novelas abiertas en varios capítulos y una receta abierta dos veces, cada grupo con la pestaña que se conserva.',
+          en: 'The Tab Twins manager with three groups of duplicate test tabs: two novels open at several chapters and a recipe open twice, each group showing the tab that stays.',
+        },
+      },
+    ],
+  },
+  {
+    id: 'claude-done-chime',
+    name: 'Claude Done-Chime',
+    category: 'software',
+    status: 'live',
+    order: 5,
+    tagline: {
+      es: 'Avisos de sonido para Claude Code',
+      en: 'Sound alerts for Claude Code',
+    },
+    description: {
+      es: 'Plugin comunitario y no oficial para Claude Code: suena cuando termina una respuesta, cuando necesita tu permiso o cuando se detiene por un error, para que puedas apartar la vista mientras trabaja.',
+      en: 'An unofficial community plugin for Claude Code: it plays a sound when a reply is done, when it needs your permission or when it stops on an error, so you can look away while it works.',
+    },
+    features: {
+      es: [
+        'Un sonido para cada aviso: terminado, atención y error',
+        'Tres paquetes incluidos: campana, suave y arcade',
+        'Sonidos propios en casi cualquier formato de audio o vídeo',
+        'Volumen y cada aviso se ajustan por separado',
+        'Duración mínima para que las respuestas rápidas no suenen',
+        'Windows, macOS y Linux sin dependencias obligatorias',
+      ],
+      en: [
+        'One sound for each alert: done, attention and error',
+        'Three built-in packs: chime, soft and arcade',
+        'Your own sounds in almost any audio or video format',
+        'Volume and each alert are set separately',
+        'A minimum task length so quick replies stay quiet',
+        'Windows, macOS and Linux with no required dependencies',
+      ],
+    },
+    cardTechnologies: ['claude-code', 'bash', 'powershell'],
+    technologies: ['claude-code', 'bash', 'powershell', 'python'],
+    links: {
+      github: 'https://github.com/Aigen1111/claude-done-chime',
+    },
+    screenshot: {
+      file: 'claude-done-chime',
+      alt: {
+        es: 'Portada de Claude Done-Chime: una campana naranja que suena entre una ventana de código y una terminal con una marca de verificación.',
+        en: 'Claude Done-Chime cover: an orange bell ringing between a code window and a terminal with a check mark.',
+      },
+    },
+  },
+  {
+    id: 'deep-dive-fishing',
+    name: 'Deep Dive Fishing',
+    category: 'games',
+    status: 'development',
+    order: 6,
+    tagline: {
+      es: 'Exploración y pesca submarina en Roblox',
+      en: 'Underwater exploration and fishing on Roblox',
+    },
+    description: {
+      es: 'Juego de exploración y pesca submarina en Roblox. Sales del puerto en tu barca, te sumerges vigilando el oxígeno y la profundidad, pescas con arpón y bajas hasta encontrarte con lo que vive en el fondo.',
+      en: 'An underwater exploration and fishing game on Roblox. Leave the harbor in your boat, dive while keeping an eye on your oxygen and depth, fish with a harpoon and go deep enough to meet what lives at the bottom.',
+    },
+    features: {
+      es: [
+        'Un puerto con faro, muelle y plaza desde donde zarpar',
+        'Tu barca para navegar hasta los puntos de inmersión',
+        'Oxígeno, carga y profundidad siempre a la vista',
+        'Pesca con arpón: un disparo a la cabeza atrapa al pez',
+        'Naufragios y cuevas en el fondo del mar',
+        'Encuentro con la Reina de la Cueva',
+      ],
+      en: [
+        'A harbor with a lighthouse, a pier and a square to set out from',
+        'Your own boat to sail to the dive spots',
+        'Oxygen, load and depth always in view',
+        'Harpoon fishing: one shot to the head catches the fish',
+        'Shipwrecks and caves on the seabed',
+        'An encounter with the Queen of the Cave',
+      ],
+    },
+    cardTechnologies: ['roblox', 'luau'],
+    technologies: ['roblox', 'luau'],
+    links: {},
+    screenshot: DEEP_DIVE_WRECK,
+    gallery: [
+      {
+        file: 'deep-dive-fishing-puerto',
+        alt: {
+          es: 'El puerto de Deep Dive Fishing: una barca amarrada al muelle de madera, casas de colores entre palmeras y un faro de rayas rojas y blancas sobre una roca.',
+          en: 'The Deep Dive Fishing harbor: a boat moored at the wooden pier, colorful houses among palm trees and a red and white striped lighthouse on a rock.',
+        },
+      },
+      {
+        file: 'deep-dive-fishing-plaza',
+        alt: {
+          es: 'La plaza inicial de Deep Dive Fishing, con una fuente frente al Museo del Mar y el objetivo de subir a la barca y navegar hasta la boya del arrecife.',
+          en: 'The starting square of Deep Dive Fishing, with a fountain in front of the Sea Museum and the objective to board the boat and sail to the reef buoy.',
+        },
+      },
+      DEEP_DIVE_WRECK,
+      {
+        file: 'deep-dive-fishing-reina',
+        alt: {
+          es: 'La Reina de la Cueva, un pulpo gigante entre partículas brillantes a 74 metros, con su barra de vida y el aviso de cortarle los brazos y esquivar.',
+          en: 'The Queen of the Cave, a giant octopus among glowing particles at 74 meters, with her health bar and the prompt to cut off her arms and dodge.',
+        },
+      },
+    ],
   },
 ];

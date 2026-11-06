@@ -57,7 +57,8 @@ La build genera `dist/third-party-licenses.txt` (`scripts/third-party-licenses.m
 
 1. Guarda una captura real en `assets/screenshots/<id>.png`.
 2. Ejecuta `npm run images` para generar las versiones AVIF/WebP en `public/projects/`.
-3. Añade un objeto en `src/data/projects.ts` con su área (`category: 'games' | 'web' | 'software'`; `software` se muestra como «Herramientas»), su estado (`'live'`, `'development'` o `'in-use'` para herramientas privadas ya en uso), su orden dentro del área, sus textos en ES/EN, tecnologías y, si tiene, su demo pública (`links.demo`). La web nunca enlaza al código fuente de los proyectos.
+3. Añade un objeto en `src/data/projects.ts` con su área (`category: 'games' | 'web' | 'software'`; `software` se muestra como «Herramientas»), su estado (`'live'`, `'development'` o `'in-use'` para herramientas privadas ya en uso), su orden dentro del área, sus textos en ES/EN, tecnologías y, si tiene, su demo pública (`links.demo`). La web nunca enlaza al código fuente de los proyectos; la única excepción es `links.github`, reservado a las herramientas públicas del estudio que se distribuyen desde su repositorio (Tab Twins y Claude Done-Chime).
+4. Si el proyecto tiene varias capturas, lístalas en orden en `gallery`, incluida la portada (`screenshot`): el detalle se abre en la portada y muestra miniaturas para pasar de una a otra.
 
 Un juego publicado se muestra como «Jugable» y su enlace como «Jugar».
 

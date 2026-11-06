@@ -37,9 +37,19 @@ export interface Project {
   cardTechnologies: readonly TechnologyId[];
   /** Full list shown in the detail view. */
   technologies: readonly TechnologyId[];
-  /** Only public demos: the site never links to source code. */
+  /**
+   * Public destinations only. The site never links to a project's source code, except
+   * `github` for the studio's own public tools that are distributed from their repository.
+   */
   links: {
     demo?: string;
+    github?: string;
   };
+  /** Cover shown on the card and first in the detail view. */
   screenshot: ProjectScreenshot;
+  /**
+   * Every screenshot of the detail view, in order, when there is more than one. It includes the
+   * cover (same `file`), and the detail view opens on it.
+   */
+  gallery?: readonly ProjectScreenshot[];
 }

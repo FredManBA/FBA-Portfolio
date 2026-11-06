@@ -27,6 +27,7 @@ describe('studio areas', () => {
       'retroM',
       'Crop Critters Idle',
       'Tornasol',
+      'Deep Dive Fishing',
     ]);
     expect(projectNames(screen.getByRole('article', { name: 'Webs' }))).toEqual([
       'Costa Rica 360',
@@ -38,6 +39,8 @@ describe('studio areas', () => {
       'Editor 360',
       'TechBuilder',
       'Gestión Política',
+      'Tab Twins',
+      'Claude Done-Chime',
     ]);
   });
 
@@ -45,13 +48,13 @@ describe('studio areas', () => {
     renderWithProviders(<WorldsSection />);
 
     const filters = getFilters();
-    expect(filters.getByRole('button', { name: 'Todo, 12 proyectos' })).toHaveAttribute(
+    expect(filters.getByRole('button', { name: 'Todo, 15 proyectos' })).toHaveAttribute(
       'aria-pressed',
       'true',
     );
-    expect(filters.getByRole('button', { name: 'Videojuegos, 5 proyectos' })).toBeInTheDocument();
+    expect(filters.getByRole('button', { name: 'Videojuegos, 6 proyectos' })).toBeInTheDocument();
     expect(filters.getByRole('button', { name: 'Webs, 4 proyectos' })).toBeInTheDocument();
-    expect(filters.getByRole('button', { name: 'Herramientas, 3 proyectos' })).toBeInTheDocument();
+    expect(filters.getByRole('button', { name: 'Herramientas, 5 proyectos' })).toBeInTheDocument();
   });
 
   it('narrows the page to the selected area', async () => {
@@ -65,7 +68,7 @@ describe('studio areas', () => {
       'true',
     );
     expect(screen.queryByRole('article', { name: 'Webs' })).not.toBeInTheDocument();
-    expect(projectNames(screen.getByRole('article', { name: 'Herramientas' }))).toHaveLength(3);
+    expect(projectNames(screen.getByRole('article', { name: 'Herramientas' }))).toHaveLength(5);
   });
 
   it('labels released games as playable and unreleased ones as in development', () => {
@@ -92,10 +95,19 @@ describe('studio areas', () => {
     expect(within(workbook).queryByRole('link')).not.toBeInTheDocument();
   });
 
-  it('opens demos in a new tab and never links to source code', () => {
+  it('opens demos in a new tab and links to GitHub only for the studio’s public tools', () => {
     renderWithProviders(<WorldsSection />);
 
-    expect(screen.queryByRole('link', { name: /GitHub|código/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /código/i })).not.toBeInTheDocument();
+    const githubLinks = screen.getAllByRole('link', { name: /^GitHub de/ });
+    expect(githubLinks.map((link) => link.getAttribute('href'))).toEqual([
+      'https://github.com/Aigen1111/tab-twins',
+      'https://github.com/Aigen1111/claude-done-chime',
+    ]);
+    for (const link of githubLinks) {
+      expect(link).toHaveAttribute('target', '_blank');
+      expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    }
 
     const codeToGo = screen.getByRole('article', { name: 'Code To Go' });
     const demo = within(codeToGo).getByRole('link', { name: /^Demo de Code To Go/ });

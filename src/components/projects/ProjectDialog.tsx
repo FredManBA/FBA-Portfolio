@@ -1,7 +1,8 @@
 import { m, useIsPresent, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, Check, X } from 'lucide-react';
-import { useEffect, useRef, type RefObject } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
+import { SiGithub } from 'react-icons/si';
 import { getTechnology } from '../../data/technologies';
 import { useLanguage } from '../../hooks/useLanguage';
 import { useModalBehavior } from '../../hooks/useModalBehavior';
@@ -14,6 +15,7 @@ import styles from './ProjectDialog.module.css';
 import { ProjectImage } from './ProjectImage';
 
 const DIALOG_IMAGE_SIZES = '(min-width: 1040px) 976px, calc(100vw - 40px)';
+const THUMB_IMAGE_SIZES = '120px';
 
 interface ProjectDialogProps {
   project: Project;
@@ -45,8 +47,16 @@ export function ProjectDialog({ project, onClose, returnFocusRef }: ProjectDialo
   }, [onClose]);
 
   const idPrefix = `project-dialog-${project.id}`;
-  const { demo } = project.links;
+  const { demo, github } = project.links;
   const status = getStatusLabel(project);
+  const gallery = project.gallery ?? [project.screenshot];
+  const [shotIndex, setShotIndex] = useState(() =>
+    Math.max(
+      0,
+      gallery.findIndex((shot) => shot.file === project.screenshot.file),
+    ),
+  );
+  const shot = gallery[shotIndex] ?? project.screenshot;
 
   return createPortal(
     <div className={styles.root} data-area={project.category}>
@@ -86,14 +96,46 @@ export function ProjectDialog({ project, onClose, returnFocusRef }: ProjectDialo
             transition={MEDIA_TRANSITION}
           >
             <ProjectImage
-              file={project.screenshot.file}
-              alt={project.screenshot.alt[language]}
+              key={shot.file}
+              file={shot.file}
+              alt={shot.alt[language]}
               sizes={DIALOG_IMAGE_SIZES}
               loading="eager"
               className={styles.image}
-              style={{ objectPosition: project.screenshot.focus }}
+              style={{ objectPosition: shot.focus }}
             />
           </m.div>
+
+          {gallery.length > 1 && (
+            <m.ul
+              role="list"
+              className={styles.thumbs}
+              aria-label={t.dialog.screenshots}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { delay: 0.2, duration: 0.3 } }}
+              exit={{ opacity: 0, transition: { duration: 0.1 } }}
+            >
+              {gallery.map((item, index) => (
+                <li key={item.file}>
+                  <button
+                    type="button"
+                    className={styles.thumb}
+                    aria-label={t.dialog.showScreenshot(index + 1, gallery.length)}
+                    aria-current={index === shotIndex ? 'true' : undefined}
+                    onClick={() => setShotIndex(index)}
+                  >
+                    <ProjectImage
+                      file={item.file}
+                      alt=""
+                      sizes={THUMB_IMAGE_SIZES}
+                      className={styles.thumbImage}
+                      style={{ objectPosition: item.focus }}
+                    />
+                  </button>
+                </li>
+              ))}
+            </m.ul>
+          )}
 
           <m.button
             type="button"
@@ -130,18 +172,32 @@ export function ProjectDialog({ project, onClose, returnFocusRef }: ProjectDialo
                 {project.description[language]}
               </p>
 
-              {demo && (
+              {(demo || github) && (
                 <div className={styles.actions}>
-                  <a
-                    href={demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`${button.button} ${button.primary}`}
-                  >
-                    {project.category === 'games' ? t.dialog.play : t.dialog.viewDemo}{' '}
-                    <span className="sr-only">{t.projects.newTab}</span>
-                    <ArrowUpRight size={18} className={button.arrow} aria-hidden="true" />
-                  </a>
+                  {demo && (
+                    <a
+                      href={demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${button.button} ${button.primary}`}
+                    >
+                      {project.category === 'games' ? t.dialog.play : t.dialog.viewDemo}{' '}
+                      <span className="sr-only">{t.projects.newTab}</span>
+                      <ArrowUpRight size={18} className={button.arrow} aria-hidden="true" />
+                    </a>
+                  )}
+                  {github && (
+                    <a
+                      href={github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${button.button} ${demo ? button.secondary : button.primary}`}
+                    >
+                      <SiGithub size={17} aria-hidden="true" />
+                      {t.dialog.viewGithub} <span className="sr-only">{t.projects.newTab}</span>
+                      <ArrowUpRight size={18} className={button.arrow} aria-hidden="true" />
+                    </a>
+                  )}
                 </div>
               )}
             </div>

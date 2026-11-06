@@ -30,19 +30,39 @@ describe('project data', () => {
       expect(project.features.en).toHaveLength(project.features.es.length);
     });
 
-    it('links only to a public https demo, never to source code', () => {
-      expect(Object.keys(project.links).every((key) => key === 'demo')).toBe(true);
+    it('links to a public https demo, and to GitHub only for the studio’s public tools', () => {
+      expect(Object.keys(project.links).every((key) => key === 'demo' || key === 'github')).toBe(
+        true,
+      );
       if (project.links.demo) {
         expect(project.links.demo).toMatch(/^https:\/\//);
         expect(project.links.demo).not.toMatch(/github\.com/);
       }
+      if (project.links.github) {
+        expect(project.category).toBe('software');
+        expect(project.links.github).toMatch(/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/);
+      }
+    });
+
+    it('includes its cover in its gallery, with every screenshot translated', () => {
+      if (!project.gallery) {
+        return;
+      }
+      expect(project.gallery.length).toBeGreaterThan(1);
+      expect(project.gallery.map((shot) => shot.file)).toContain(project.screenshot.file);
+      expect(new Set(project.gallery.map((shot) => shot.file)).size).toBe(project.gallery.length);
+      for (const shot of project.gallery) {
+        expect(shot.alt.es.trim()).not.toBe('');
+        expect(shot.alt.en.trim()).not.toBe('');
+      }
     });
 
     it('has every generated screenshot variant', () => {
-      const { file } = project.screenshot;
-      for (const width of getScreenshotMeta(file).widths) {
-        expect(publicFiles).toContain(screenshotUrl(file, width, 'avif'));
-        expect(publicFiles).toContain(screenshotUrl(file, width, 'webp'));
+      for (const { file } of [project.screenshot, ...(project.gallery ?? [])]) {
+        for (const width of getScreenshotMeta(file).widths) {
+          expect(publicFiles).toContain(screenshotUrl(file, width, 'avif'));
+          expect(publicFiles).toContain(screenshotUrl(file, width, 'webp'));
+        }
       }
     });
   });

@@ -76,6 +76,8 @@ const es = {
     // Accessible names start with the visible word (WCAG 2.5.3, label in name).
     demoLabel: (name: string) => `Demo de ${name}`,
     playLabel: (name: string) => `Jugar ${name}`,
+    github: 'GitHub',
+    githubLabel: (name: string) => `GitHub de ${name}`,
     noPublicDemo: 'Todavía sin demo pública',
     privateProject: 'Proyecto privado',
     newTab: '(se abre en una pestaña nueva)',
@@ -86,6 +88,9 @@ const es = {
     technologies: 'Tecnologías',
     viewDemo: 'Abrir demo',
     play: 'Jugar ahora',
+    viewGithub: 'Ver en GitHub',
+    screenshots: 'Capturas',
+    showScreenshot: (index: number, total: number) => `Ver captura ${index} de ${total}`,
   },
   team: {
     title: 'Somos cuatro',
@@ -202,6 +207,8 @@ const en: Translation = {
     play: 'Play',
     demoLabel: (name: string) => `Demo of ${name}`,
     playLabel: (name: string) => `Play ${name}`,
+    github: 'GitHub',
+    githubLabel: (name: string) => `GitHub repository of ${name}`,
     noPublicDemo: 'No public demo yet',
     privateProject: 'Private project',
     newTab: '(opens in a new tab)',
@@ -212,6 +219,9 @@ const en: Translation = {
     technologies: 'Technologies',
     viewDemo: 'Open demo',
     play: 'Play now',
+    viewGithub: 'View on GitHub',
+    screenshots: 'Screenshots',
+    showScreenshot: (index: number, total: number) => `Show screenshot ${index} of ${total}`,
   },
   team: {
     title: 'There are four of us',

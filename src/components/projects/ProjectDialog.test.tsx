@@ -74,6 +74,38 @@ describe('project detail dialog', () => {
     );
   });
 
+  it('links the studio’s public tools to their GitHub repository', async () => {
+    const { dialog } = await openProject('Tab Twins');
+
+    expect(within(dialog).getByRole('link', { name: /Ver en GitHub/ })).toHaveAttribute(
+      'href',
+      'https://github.com/Aigen1111/tab-twins',
+    );
+  });
+
+  it('switches between the screenshots of a gallery', async () => {
+    const { user, dialog } = await openProject('Deep Dive Fishing');
+
+    const picker = within(dialog).getByRole('list', { name: 'Capturas' });
+    const thumbs = within(picker).getAllByRole('button');
+    expect(thumbs).toHaveLength(4);
+    // It opens on the cover, the underwater wreck, which is third in the gallery.
+    expect(thumbs[2]).toHaveAttribute('aria-current', 'true');
+    expect(within(dialog).getByRole('img', { name: /naufragio/ })).toBeInTheDocument();
+
+    await user.click(within(picker).getByRole('button', { name: 'Ver captura 4 de 4' }));
+
+    expect(thumbs[3]).toHaveAttribute('aria-current', 'true');
+    expect(thumbs[2]).not.toHaveAttribute('aria-current');
+    expect(within(dialog).getByRole('img', { name: /Reina de la Cueva/ })).toBeInTheDocument();
+  });
+
+  it('shows no screenshot picker for a single screenshot', async () => {
+    const { dialog } = await openProject('Code To Go');
+
+    expect(within(dialog).queryByRole('list', { name: 'Capturas' })).not.toBeInTheDocument();
+  });
+
   it('offers to play a released game', async () => {
     const { dialog } = await openProject('Tiny Kingdoms');
 

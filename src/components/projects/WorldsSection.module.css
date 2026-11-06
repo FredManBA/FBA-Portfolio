@@ -141,6 +141,12 @@
   grid-column: 2 / span 2;
 }
 
+/* Two full rows of three. */
+.world[data-count='6'] .grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: none;
+}
+
 /* The filters need a full row before they would wrap into a lopsided pill. */
 @media (max-width: 1180px) {
   .intro {
@@ -165,6 +171,11 @@
   .world[data-count='5'] .grid > li:last-child {
     grid-column: 2 / span 2;
   }
+
+  .world[data-count='6'] .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 1000px;
+  }
 }
 
 @media (max-width: 960px) {
@@ -187,7 +198,8 @@
 @media (max-width: 640px) {
   .grid,
   .world[data-count='3'] .grid,
-  .world[data-count='5'] .grid {
+  .world[data-count='5'] .grid,
+  .world[data-count='6'] .grid {
     grid-template-columns: minmax(0, 1fr);
   }
 

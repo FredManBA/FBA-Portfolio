@@ -96,7 +96,7 @@ export function ProjectCard({ project, onOpen }: ProjectCardProps) {
               <ArrowRight size={17} aria-hidden="true" />
             </button>
             <div className={styles.linksSlot}>
-              {project.links.demo ? (
+              {project.links.demo || project.links.github ? (
                 <ProjectLinks project={project} />
               ) : (
                 <span className={styles.note}>
