@@ -1,5 +1,5 @@
 import { AnimatePresence, m, type Variants } from 'framer-motion';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { PROJECTS } from '../../data/projects';
 import { AREA_ORDER, AREA_PLANETS, SECTION_IDS } from '../../data/site';
 import { useLanguage } from '../../hooks/useLanguage';
@@ -34,6 +34,34 @@ const worldVariants: Variants = {
   exit: { opacity: 0, transition: { duration: 0.2, ease: EASE_OUT } },
 };
 
+function areasFor(filter: ProjectFilterId): ProjectCategory[] {
+  return filter === 'all' ? AREAS : AREAS.filter((area) => area === filter);
+}
+
+interface FilterState {
+  filter: ProjectFilterId;
+  /**
+   * How many times each area has come back onto the page. It is part of the area's key: an area
+   * brought back while it is still fading out is mounted again and fades in, because Motion does
+   * not replay the entrance of a child that returns mid-exit and it would stay invisible.
+   */
+  entries: Partial<Record<ProjectCategory, number>>;
+}
+
+function filterReducer(state: FilterState, next: ProjectFilterId): FilterState {
+  if (next === state.filter) {
+    return state;
+  }
+  const shown = areasFor(state.filter);
+  const entries = { ...state.entries };
+  for (const area of areasFor(next)) {
+    if (!shown.includes(area)) {
+      entries[area] = (entries[area] ?? 0) + 1;
+    }
+  }
+  return { filter: next, entries };
+}
+
 /**
  * "One universe, four friends": each area is shown as its members' planets, with its projects
  * underneath.
@@ -41,11 +69,14 @@ const worldVariants: Variants = {
  */
 export function WorldsSection() {
   const { t } = useLanguage();
-  const [filter, setFilter] = useState<ProjectFilterId>('all');
+  const [{ filter, entries }, setFilter] = useReducer(filterReducer, {
+    filter: 'all',
+    entries: {},
+  });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const selectedProject = SORTED_PROJECTS.find((project) => project.id === selectedId);
-  const visibleAreas = filter === 'all' ? AREAS : AREAS.filter((area) => area === filter);
+  const visibleAreas = areasFor(filter);
 
   const openProject = useCallback((project: Project, trigger: HTMLElement) => {
     triggerRef.current = trigger;
@@ -88,7 +119,7 @@ export function WorldsSection() {
             const titleId = `${SECTION_IDS[area]}-title`;
             return (
               <m.article
-                key={area}
+                key={`${area}-${entries[area] ?? 0}`}
                 id={SECTION_IDS[area]}
                 className={styles.world}
                 data-area={area}
